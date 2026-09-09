@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="APPraforgó">
+  <defs><ellipse id="pb" cx="32" cy="13.5" rx="5" ry="10"/></defs>
+  <g fill="#F5B301">
+    <use href="#pb"/>
+    <use href="#pb" transform="rotate(45.0 32 32)"/>
+    <use href="#pb" transform="rotate(90.0 32 32)"/>
+    <use href="#pb" transform="rotate(135.0 32 32)"/>
+    <use href="#pb" transform="rotate(180.0 32 32)"/>
+    <use href="#pb" transform="rotate(225.0 32 32)"/>
+    <use href="#pb" transform="rotate(270.0 32 32)"/>
+    <use href="#pb" transform="rotate(315.0 32 32)"/>
+  </g>
+  <g fill="#2A4BD7">
+    <use href="#pb" transform="rotate(22.5 32 32)"/>
+    <use href="#pb" transform="rotate(67.5 32 32)"/>
+    <use href="#pb" transform="rotate(112.5 32 32)"/>
+    <use href="#pb" transform="rotate(157.5 32 32)"/>
+    <use href="#pb" transform="rotate(202.5 32 32)"/>
+    <use href="#pb" transform="rotate(247.5 32 32)"/>
+    <use href="#pb" transform="rotate(292.5 32 32)"/>
+    <use href="#pb" transform="rotate(337.5 32 32)"/>
+  </g>
+  <circle cx="32" cy="32" r="12.5" fill="#10162B"/>
+  <circle cx="32" cy="32" r="4.5" fill="#F5B301"/>
+</svg>

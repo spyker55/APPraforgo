@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="hu">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>APPraforgó — logóváltozatok</title>
+<style>
+  :root {
+    --bg:#FCFBF7; --surface:#fff; --ink:#10162B; --muted:#5A6180;
+    --brand:#2A4BD7; --brand-soft:#EEF1FE; --line:#E6E4DC; --sun-ink:#7A5B00;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Arial,sans-serif;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);line-height:1.6}
+  .wrap{max-width:1180px;margin:0 auto;padding:2.5rem 1.5rem 3.5rem}
+  h1{font-size:1.9rem;letter-spacing:-.02em;margin:0 0 .4rem}
+  .sub{color:var(--muted);margin:0 0 2.5rem;max-width:60ch}
+  .grid{display:grid;gap:1.15rem;grid-template-columns:repeat(auto-fit,minmax(17rem,1fr))}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;
+        padding:1.5rem;box-shadow:0 1px 2px rgba(16,22,43,.05),0 8px 24px rgba(16,22,43,.06);
+        display:flex;flex-direction:column;gap:1rem}
+  .badge{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.08em;
+         text-transform:uppercase;color:var(--brand);background:var(--brand-soft);
+         border-radius:999px;padding:.25rem .7rem;align-self:flex-start}
+  .badge.now{color:var(--sun-ink);background:#FFF3CF}
+  .stage{display:grid;place-items:center;height:9.5rem;border-radius:12px;background:var(--bg)}
+  .stage img{width:110px;height:110px;animation:spin 120s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  h2{font-size:1.1rem;margin:0}
+  .note{color:var(--muted);font-size:.9rem;margin:0}
+  .sizes{display:flex;align-items:center;gap:1.25rem;padding-top:.9rem;
+         border-top:1px solid var(--line);margin-top:auto}
+  .size{display:flex;align-items:center;gap:.5rem;color:var(--muted);font-size:.78rem}
+  .size img{display:block}
+  .hdr{display:flex;align-items:center;gap:.45rem;background:var(--bg);
+       border:1px solid var(--line);border-radius:999px;padding:.3rem .7rem;
+       font-weight:700;font-size:.85rem;letter-spacing:-.02em}
+  .hdr img{width:22px;height:22px}
+  .hdr .app{color:var(--brand)}
+  @media (prefers-reduced-motion: reduce){ .stage img{animation:none} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>APPraforgó — logóváltozatok</h1>
+  <p class="sub">Mindegyik ugyanabban a 64×64-es rácsban készült, tehát cserélhetők.
+     A nagy példány a webhelyével azonos ütemben forog (egy fordulat 120 másodperc) —
+     szándékosan alig észrevehető. Alul a valós használati méretek: fejléc (30 px) és
+     böngészőfül (16 px).</p>
+  <div class="grid" id="grid"></div>
+</div>
+<script>
+  const V = [
+    ['logo-jelenlegi.svg','Jelenlegi','A mostani logó, változatlanul. 16 arany szirom, királykék közép.', true],
+    ['logo-kek.svg','Kék szirmok','Megfordított logika: királykék szirmok, napraforgó-arany közép. A kék viszi a márkát, az arany csak felvillan.'],
+    ['logo-app.svg','App-ikonos szirmok','A szirmok helyén nyolc lekerekített app-csempe, mindegyikben egy funkcióikon: kód, diagram, pipa, kereső, lista, villám, naptár, felhő.'],
+    ['logo-valtakozo.svg','Váltakozó','Arany és kék szirmok felváltva, sötét tengerkék középpel. A két márkaszín egyenrangúan.'],
+    ['logo-kompakt.svg','Kompakt','Nyolc vastagabb szirom a tizenhat helyett. Kis méretben ez marad a legolvashatóbb.'],
+    ['logo-vonalas.svg','Vonalas','Csak körvonalak, kitöltés nélkül. Visszafogott, technikusabb hangvétel.'],
+  ];
+  document.getElementById('grid').innerHTML = V.map(([f,name,note,now]) => `
+    <article class="card">
+      <span class="badge ${now?'now':''}">${now?'jelenlegi':'alternatíva'}</span>
+      <div class="stage"><img src="logo-variants/${f}" alt=""></div>
+      <h2>${name}</h2>
+      <p class="note">${note}</p>
+      <div class="sizes">
+        <span class="size"><img src="logo-variants/${f}" width="30" height="30" alt="">30 px</span>
+        <span class="size"><img src="logo-variants/${f}" width="16" height="16" alt="">16 px</span>
+        <span class="hdr"><img src="logo-variants/${f}" alt=""><span><span class="app">APP</span>raforgó</span></span>
+      </div>
+    </article>`).join('');
+</script>
+</body>
+</html>
