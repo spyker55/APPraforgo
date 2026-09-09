@@ -289,8 +289,11 @@ a:hover { color: var(--brand-dark); }
   color: var(--muted);
   font-size: .925rem;
 }
-.hero-meta li { display: inline-flex; align-items: center; gap: .5rem; }
+/* flex-start + margó: több soros tételnél a pötty az ELSŐ sorhoz igazodik,
+   nem a szövegblokk függőleges közepére csúszik. */
+.hero-meta li { display: inline-flex; align-items: flex-start; gap: .5rem; }
 .hero-meta li::before {
+  margin-top: .6em;
   content: "";
   width: .4rem; height: .4rem;
   border-radius: 50%;
