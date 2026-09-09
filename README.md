@@ -53,20 +53,31 @@ esetén nem kell átírni. A kötelező cégadat a láblécben van, tárgyilagos
 **Új referencia hozzáadása** — másold le a `<a class="card work">` blokkot a
 `#referenciak` szekcióban, és írd át. A kép a `.work-shot` divbe kerül.
 
-**Képernyőképek** — ⚠️ a jelenlegi két kép a két oldal **nyomtatási PDF-exportjából**
-készült kivágás, nem valódi böngésző-screenshot: a nyomtatási stíluslap más lehet,
-mint amit a látogató lát, és a képeket a print export eldobta. Amint van rendes
-screenshot, cseréld le őket — a fájlnevet megtartva nincs más teendő:
+**Képernyőképek** — a két kép valódi böngésző-screenshot a két oldalról,
+16:10-re kiegészítve (nem vágva): a hiányzó sávot a kép saját szélszíne tölti ki,
+így a keretben nem látszik átmenet.
 
 ```
-assets/zsebgarazs.png    1484 × 929   (16:10)
-assets/leltarium.png     1404 × 879   (16:10)
+assets/zsebgarazs.png    1229 × 768   (eredeti 1144 × 768, oldalt +85 px  #F5F8F4)
+assets/leltarium.png     1144 × 715   (eredeti 1144 × 706, alul   +9 px   #F7F9FC)
 ```
 
-**Bármilyen arányú képet be lehet dobni** ezekkel a nevekkel — a keret
-`object-fit: contain`-nel dolgozik, tehát semmit nem vág le, csak beilleszti a
-16:10-es keretbe. A keret háttere fehér; ha a screenshot széle is világos, a
-maradék sáv nem látszik. Ideális, ha a kép maga is 16:10 körüli.
+Cseréhez elég ugyanezekkel a nevekkel felülírni őket. A keret `object-fit:
+contain`-nel dolgozik, tehát semmilyen arányt nem vág le — de a legszebb, ha a
+kép 16:10, mert akkor tölti ki hézagmentesen. Kiegészítés a szélszínnel:
+
+```bash
+python3 - <<'EOF'
+from PIL import Image
+im = Image.open('uj-screenshot.png').convert('RGB')
+w, h = im.size
+bg = im.getpixel((1, h // 2))                 # bal szél színe
+W, H = (round(h * 1.6), h) if w / h < 1.6 else (w, round(w / 1.6))
+c = Image.new('RGB', (W, H), bg)
+c.paste(im, ((W - w) // 2, 0))
+c.save('assets/valami.png', optimize=True)
+EOF
+```
 
 Új méret esetén érdemes az `index.html`-ben a `width`/`height` attribútumot is
 átírni. Nem kötelező: a `.work-shot` fix aránya miatt betöltéskor akkor sem ugrik
