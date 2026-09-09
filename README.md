@@ -1,7 +1,7 @@
 # APPraforgó — landing page
 
-Egyoldalas bemutatkozó oldal. **Nyeste Krisztián e.v.** — egyedi webes alkalmazások
-kis- és középvállalatoknak.
+Egyoldalas bemutatkozó oldal: egyedi webes alkalmazások kis- és középvállalatoknak.
+Üzemeltető: Nyeste Krisztián e.v.
 
 > Ötletből alkalmazások
 
@@ -14,6 +14,7 @@ két SVG. Bárhol elfut, ami fájlokat tud kiszolgálni.
 index.html          a teljes oldal (tartalom + inline SVG ikonok)
 assets/style.css    a teljes stílus, CSS változókkal a tetején
 assets/logo.svg     napraforgó logó
+assets/*.png        képernyőképek a referencia-kártyákhoz
 favicon.svg         böngészőfül ikon
 ```
 
@@ -43,15 +44,28 @@ egész oldal átszíneződik.
 fehéren nem éri el a WCAG AA kontrasztot.
 
 **Szövegek** — közvetlenül az `index.html`-ben. A szekciók sorrendben:
-hero → *Miben segítek* → *Hogyan dolgozom* → *Referenciamunkák* → *Beszéljünk róla* → lábléc.
+hero → *Miben segítünk* → *Hogyan dolgozunk* → *Referenciamunkák* → *Beszéljünk róla* → lábléc.
+
+**Hangnem** — a szövegek többes szám első személyben szólnak („építünk",
+„válaszolunk"). Ez szándékos: nem köti az oldalt egyetlen emberhez, így bővülés
+esetén nem kell átírni. A kötelező cégadat a láblécben van, tárgyilagosan.
 
 **Új referencia hozzáadása** — másold le a `<a class="card work">` blokkot a
-`#referenciak` szekcióban, és írd át. A `work-mark--blue` / `work-mark--sun` osztály
-váltja a kártyafejléc színét.
+`#referenciak` szekcióban, és írd át. A kép a `.work-shot` divbe kerül.
 
-**Képernyőképek a referenciákhoz** — jelenleg tipográfiai kártyák vannak.
-Ha van kép, a `<span class="work-mark …">` helyére tehető egy
-`<img src="assets/zsebgarazs.png" alt="" loading="lazy">`.
+**Képernyőképek** — ⚠️ a jelenlegi két kép a két oldal **nyomtatási PDF-exportjából**
+készült kivágás, nem valódi böngésző-screenshot: a nyomtatási stíluslap más lehet,
+mint amit a látogató lát, és a képeket a print export eldobta. Amint van rendes
+screenshot, cseréld le őket — a fájlnevet megtartva nincs más teendő:
+
+```
+assets/zsebgarazs.png    1484 × 929   (16:10)
+assets/leltarium.png     1404 × 879   (16:10)
+```
+
+Bármilyen 16:10 arányú kép jó; a keret `object-fit: cover`-rel vágja be, felülről
+igazítva. Új méret esetén az `index.html`-ben a `width`/`height` attribútumot is
+igazítsd, különben betöltés közben ugrál a layout.
 
 ## Publikálás
 
