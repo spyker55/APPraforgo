@@ -299,5 +299,13 @@
 <script>
   document.getElementById("ev").textContent = new Date().getFullYear();
 </script>
+
+<!-- Vercel Web Analytics. Süti nélküli, saját domainről töltődik (nincs külső
+     kérés), és csak lapmegtekintést mér. A window.va sor a későbbi egyedi
+     eseményekhez kell — enélkül a va() hívások elvesznének. -->
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>

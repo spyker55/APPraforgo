@@ -69,10 +69,17 @@ már `https://appraforgo.hu/`-ra mutat, nincs teendő.
 
 - **Nincs külső betűtípus** (Google Fonts sem) — rendszer-fontstack. Nulla külső
   kérés, nulla GDPR-szürkezóna, azonnali betöltés.
-- **Nincs analytics és nincs süti** — így cookie-banner sem kell.
+- **Nincs süti** — a Vercel Web Analytics süti és localStorage nélkül mér, és a
+  scriptje saját domainről (`/_vercel/insights/script.js`) töltődik, nem külső
+  CDN-ről. Klasszikus cookie-bannert így nem indokol; az adatkezelési
+  tájékoztatóban viszont érdemes megemlíteni, hogy látogatottságot mérsz.
 - **Nincs kapcsolati űrlap** — a kapcsolatfelvétel `mailto:` linkkel megy,
   nem kell hozzá backend és nincs spam-kezelés.
 - **Nincs sötét mód** — az oldal szándékosan világos.
 
-Egyetlen sor JavaScript fut: a láblécben az évszám frissítése. Nélküle is helyes
-évszám látszik, csak nem frissül magától.
+Saját JavaScript egyetlen sor: a láblécben az évszám frissítése. Nélküle is helyes
+évszám látszik, csak nem frissül magától. Ezen kívül a Vercel Web Analytics
+mérőscriptje fut, `defer`-rel — a `<body>` végén, az `index.html`-ben.
+
+A mérés a Vercel projekt **Analytics** fülén kapcsolható ki-be. Ha kikapcsolod,
+a scriptet is vedd ki az `index.html`-ből, különben 404-re fut.
