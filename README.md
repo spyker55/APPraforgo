@@ -63,9 +63,14 @@ assets/zsebgarazs.png    1484 × 929   (16:10)
 assets/leltarium.png     1404 × 879   (16:10)
 ```
 
-Bármilyen 16:10 arányú kép jó; a keret `object-fit: cover`-rel vágja be, felülről
-igazítva. Új méret esetén az `index.html`-ben a `width`/`height` attribútumot is
-igazítsd, különben betöltés közben ugrál a layout.
+**Bármilyen arányú képet be lehet dobni** ezekkel a nevekkel — a keret
+`object-fit: contain`-nel dolgozik, tehát semmit nem vág le, csak beilleszti a
+16:10-es keretbe. A keret háttere fehér; ha a screenshot széle is világos, a
+maradék sáv nem látszik. Ideális, ha a kép maga is 16:10 körüli.
+
+Új méret esetén érdemes az `index.html`-ben a `width`/`height` attribútumot is
+átírni. Nem kötelező: a `.work-shot` fix aránya miatt betöltéskor akkor sem ugrik
+a layout, ha elavult — de a helyes érték pontosabb infó a böngészőnek.
 
 ## Publikálás
 
