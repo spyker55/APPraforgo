@@ -43,7 +43,7 @@
 <body>
 <div class="wrap">
   <h1>APPraforgó — logóváltozatok</h1>
-  <p class="sub">Mindegyik ugyanabban a 64×64-es rácsban készült, tehát cserélhetők.
+  <p class="sub">A mostani napraforgó, halvány app-ikonokkal a szirmokon. A rajz és a geometria változatlan — csak nyolc ikon került a felső sziromgyűrűre.
      A nagy példány a webhelyével azonos ütemben forog (egy fordulat 120 másodperc) —
      szándékosan alig észrevehető. Alul a valós használati méretek: fejléc (30 px) és
      böngészőfül (16 px).</p>
@@ -51,12 +51,11 @@
 </div>
 <script>
   const V = [
-    ['logo-jelenlegi.svg','Jelenlegi','A mostani logó, változatlanul. 16 arany szirom, királykék közép.', true],
-    ['logo-kek.svg','Kék szirmok','Megfordított logika: királykék szirmok, napraforgó-arany közép. A kék viszi a márkát, az arany csak felvillan.'],
-    ['logo-app.svg','App-ikonos szirmok','A szirmok helyén nyolc lekerekített app-csempe, mindegyikben egy funkcióikon: kód, diagram, pipa, kereső, lista, villám, naptár, felhő.'],
-    ['logo-valtakozo.svg','Váltakozó','Arany és kék szirmok felváltva, sötét tengerkék középpel. A két márkaszín egyenrangúan.'],
-    ['logo-kompakt.svg','Kompakt','Nyolc vastagabb szirom a tizenhat helyett. Kis méretben ez marad a legolvashatóbb.'],
-    ['logo-vonalas.svg','Vonalas','Csak körvonalak, kitöltés nélkül. Visszafogott, technikusabb hangvétel.'],
+    ['logo-jelenlegi.svg','Jelenlegi','A mostani logó, ikonok nélkül — összehasonlítási alap.', true],
+    ['logo-ikonos-borostyan.svg','Borostyán ikonok','Meleg borostyán (#8A6400) 42%-on. A legolvashatóbb, és nem hoz be új színt — vésett hatás.'],
+    ['logo-ikonos-feher.svg','Fehér ikonok','Fehér 62%-on. A leglágyabb, dombornyomott érzet; nagy méretben elegáns, kicsiben szinte eltűnik.'],
+    ['logo-ikonos-kek.svg','Kék ikonok','Királykék 34%-on — a középpont színét visszhangozza, de aranyon kissé szürkésnek hat.'],
+    ['logo-ikonos-feher-radialis.svg','Fehér, sziromirányban','Ugyanaz, de az ikonok követik a szirom szögét. Dekoratívabb, viszont az ikonok nehezebben olvashatók.'],
   ];
   document.getElementById('grid').innerHTML = V.map(([f,name,note,now]) => `
     <article class="card">
