@@ -14,8 +14,12 @@ két SVG. Bárhol elfut, ami fájlokat tud kiszolgálni.
 index.html          a teljes oldal (tartalom + inline SVG ikonok)
 assets/style.css    a teljes stílus, CSS változókkal a tetején
 assets/logo.svg     napraforgó logó
+assets/og.png       megosztási kártya (1200×630), generált — lásd lentebb
 assets/*.png        képernyőképek a referencia-kártyákhoz
 favicon.svg         böngészőfül ikon
+robots.txt          keresőknek: minden indexelhető, itt a sitemap
+sitemap.xml         egyetlen URL, az apex
+google*.html        a Google Search Console tulajdonjog-igazoló fájlja
 ```
 
 ## Helyi megnyitás
@@ -94,6 +98,36 @@ Nincs build lépés, a repó tartalma **változtatás nélkül feltölthető**:
 
 Éles domain után a `index.html` `<head>` részében a `canonical` és az `og:url`
 már `https://appraforgo.hu/`-ra mutat, nincs teendő.
+
+## Kereső és megosztás
+
+**Google Search Console** — URL prefix property a `https://appraforgo.hu/` címre,
+a gyökérben lévő `google8c85458d0ccfd79f.html` fájllal igazolva. **Ez a fájl
+maradjon a helyén**: ha törlöd, a property elveszti az igazolást.
+
+**A `design/` oldalak `noindex`-et kapnak**, mert belső összehasonlító lapok. A
+`robots.txt` viszont szándékosan *nem* tiltja le őket: egy letiltott oldal külső
+hivatkozásból attól még bekerülhet az indexbe, mert a crawler épp azt a fájlt nem
+tölti le, amiben a `noindex` áll.
+
+**Megosztási kártya** — az `assets/og.png` az a kép, amit a Facebook, a LinkedIn
+és a Twitter mutat a link mellett. Nem kézzel készült, hanem generált:
+
+```bash
+npm install playwright-core
+node design/og-image.js          # → assets/og.png
+```
+
+A logót a script az `assets/logo.svg`-ből emeli ki, tehát logóváltáskor magától
+követi. Ha a nevet vagy a szlogent írod át, futtasd újra, és frissítsd az
+`og:image:width` / `height` metákat, ha közben a méret is változna.
+
+⚠️ `og:image` **nélkül** a Facebook a lapon talált legnagyobb képet választja —
+esetünkben az egyik referencia-screenshotot. Ezért kell explicit megadni.
+
+Kép cseréje után a Facebook a régi verziót cache-eli; a
+[Sharing Debugger](https://developers.facebook.com/tools/debug/) *Scrape Again*
+gombja frissíti.
 
 ## Amit szándékosan nem tartalmaz
 
