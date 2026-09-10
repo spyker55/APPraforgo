@@ -11,14 +11,16 @@ Sima statikus oldal: **nincs build, nincs npm, nincs függőség**. Egy HTML, eg
 két SVG. Bárhol elfut, ami fájlokat tud kiszolgálni.
 
 ```
-index.html          a teljes oldal (tartalom + inline SVG ikonok)
-assets/style.css    a teljes stílus, CSS változókkal a tetején
+index.html          a magyar oldal (tartalom + inline SVG ikonok)
+en/index.html       ugyanaz angolul
+assets/style.css    a teljes stílus mindkét nyelvhez, CSS változókkal a tetején
 assets/logo.svg     napraforgó logó
-assets/og.png       megosztási kártya (1200×630), generált — lásd lentebb
+assets/og.png       megosztási kártya magyarul (1200×630), generált
+assets/og-en.png    ugyanaz angolul
 assets/*.png        képernyőképek a referencia-kártyákhoz
 favicon.svg         böngészőfül ikon
 robots.txt          keresőknek: minden indexelhető, itt a sitemap
-sitemap.xml         egyetlen URL, az apex
+sitemap.xml         mindkét nyelv URL-je, hreflang-gel
 google*.html        a Google Search Console tulajdonjog-igazoló fájlja
 ```
 
@@ -29,7 +31,9 @@ python3 -m http.server 8000
 # → http://localhost:8000
 ```
 
-(A puszta duplakattintás az `index.html`-en is működik.)
+(A puszta duplakattintás az `index.html`-en is működik, de a **nyelvváltó gomb
+nem**: a `/en/` és a `/` hivatkozás a domain gyökeréhez képest értendő, `file://`
+alatt nincs gyökér. Nyelvváltó teszteléséhez indítsd el a fenti szervert.)
 
 ## Szerkesztés
 
@@ -99,6 +103,37 @@ Nincs build lépés, a repó tartalma **változtatás nélkül feltölthető**:
 Éles domain után a `index.html` `<head>` részében a `canonical` és az `og:url`
 már `https://appraforgo.hu/`-ra mutat, nincs teendő.
 
+## Két nyelv
+
+Az oldal **két külön HTML fájl**, nem egy lap JavaScriptes szövegcserével:
+
+```
+/            index.html       magyar
+/en/         en/index.html    angol
+```
+
+Ez szándékos. Így mindkét nyelvnek **saját URL-je** van, amit a Google külön
+indexelhet és a látogató megoszthat, és JavaScript nélkül is működik. Egy
+kapcsolós megoldásnál a Google csak az egyik nyelvet látná.
+
+A két lap `hreflang` hivatkozásokkal mutat egymásra (`hu`, `en`, `x-default` →
+magyar), és a `sitemap.xml` ugyanezt megismétli. Ha új nyelv jönne, mindhárom
+helyen fel kell venni: a két lap `<head>`-jében és a sitemapban.
+
+**A fejléc nyelvváltója** a `.lang` osztály. A gombon mindig a *másik* nyelv
+kódja áll, mert az a művelet, nem az állapot — magyar lapon `EN`, angolon `HU`.
+A gomb `aria-label`-je a célnyelven szól, hogy képernyőolvasóval se csak két
+betű hangozzon el.
+
+⚠️ **A tartalom duplikált.** Ha a magyar oldalon átírsz egy szöveget, az angolt
+kézzel kell utána húzni — nincs build lépés, ami szinkronban tartaná. Ez az ára
+annak, hogy nulla függőséggel fut az oldal. Ugyanez igaz a beágyazott logó-SVG-re:
+összesen négy példány van belőle (két lap × fejléc és hero), plusz az
+`assets/logo.svg` és a `favicon.svg`. Logóváltásnál mind a hat helyen cserélni kell.
+
+A szekció-azonosítók nyelvenként különböznek (`#szolgaltatasok` ↔ `#services`),
+hogy az angol lapon ne magyar horgonyok álljanak a címsorban.
+
 ## Kereső és megosztás
 
 **Google Search Console** — URL prefix property a `https://appraforgo.hu/` címre,
@@ -110,17 +145,18 @@ maradjon a helyén**: ha törlöd, a property elveszti az igazolást.
 hivatkozásból attól még bekerülhet az indexbe, mert a crawler épp azt a fájlt nem
 tölti le, amiben a `noindex` áll.
 
-**Megosztási kártya** — az `assets/og.png` az a kép, amit a Facebook, a LinkedIn
-és a Twitter mutat a link mellett. Nem kézzel készült, hanem generált:
+**Megosztási kártya** — az `assets/og.png` (magyar) és `assets/og-en.png` (angol)
+az a kép, amit a Facebook, a LinkedIn és a Twitter mutat a link mellett. Nem
+kézzel készültek, hanem generáltak:
 
 ```bash
 npm install playwright-core
-node design/og-image.js          # → assets/og.png
+node design/og-image.js          # → assets/og.png + assets/og-en.png
 ```
 
-A logót a script az `assets/logo.svg`-ből emeli ki, tehát logóváltáskor magától
-követi. Ha a nevet vagy a szlogent írod át, futtasd újra, és frissítsd az
-`og:image:width` / `height` metákat, ha közben a méret is változna.
+A szövegeket a script tetején, a `CARDS` tömbben találod. A logót az
+`assets/logo.svg`-ből emeli ki, tehát logóváltáskor magától követi, és elhasal,
+ha a szöveg kilógna a vászonból — az angol tipikusan hosszabb, ezért nem árt.
 
 ⚠️ `og:image` **nélkül** a Facebook a lapon talált legnagyobb képet választja —
 esetünkben az egyik referencia-screenshotot. Ezért kell explicit megadni.

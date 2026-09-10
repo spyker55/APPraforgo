@@ -150,6 +150,32 @@ a:hover { color: var(--brand-dark); }
   .brand { margin-right: 0; }
 }
 
+/* Nyelvváltó: a gombon csak a *másik* nyelv kódja áll, mert az a művelet,
+   nem az állapot. A min-width tartja a méretet, hogy a fejléc ne ugorjon
+   meg a HU/EN váltáskor. */
+.lang {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.75rem;
+  padding: .5rem .65rem;
+  border: 1.5px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: .8rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-decoration: none;
+  transition: color .18s ease, border-color .18s ease, background-color .18s ease;
+}
+.lang:hover {
+  color: var(--brand-dark);
+  border-color: var(--brand);
+  background: var(--brand-soft);
+}
+
 /* --- Gombok ------------------------------------------------------------- */
 
 .btn {

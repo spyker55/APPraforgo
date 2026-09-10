@@ -1,5 +1,7 @@
 /**
- * Újragenerálja a megosztási kártyát: assets/og.png (1200x630).
+ * Újragenerálja a megosztási kártyákat:
+ *   assets/og.png      a magyar oldalhoz (/)
+ *   assets/og-en.png   az angol oldalhoz (/en/)
  *
  * Akkor kell lefuttatni, ha a név, a szlogen vagy a logó változik — a
  * Facebook, a LinkedIn és a Twitter ezt a képet mutatja a link mellett.
@@ -16,11 +18,24 @@ const path = require('path');
 const { chromium } = require('playwright-core');
 
 const ROOT = path.join(__dirname, '..');
-const OUT = path.join(ROOT, 'assets', 'og.png');
 const CHROME = process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium';
 
 const WIDTH = 1200;
 const HEIGHT = 630;
+
+// Nyelvenként csak a szöveg változik, a kompozíció nem.
+const CARDS = [
+  {
+    file: 'og.png',
+    slogan: 'Ötletből alkalmazások',
+    desc: 'Egyedi webes alkalmazások<br>kis- és középvállalatoknak',
+  },
+  {
+    file: 'og-en.png',
+    slogan: 'Ideas into applications',
+    desc: 'Custom web applications for<br>small and medium-sized businesses',
+  },
+];
 
 // A logót a kiszállított fájlból emeljük ki, hogy a kártya ne tudjon
 // elcsúszni tőle. Az id-ket egyedivé tesszük, mert a lapra beágyazva
@@ -31,7 +46,7 @@ const logo = fs
   .replace(/id="p"/, 'id="og-p"')
   .replace(/href="#p"/g, 'href="#og-p"');
 
-const html = `
+const cardHtml = (card) => `
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -62,9 +77,9 @@ const html = `
 <div class="mark">${logo}</div>
 <div class="text">
   <h1>APPraforgó</h1>
-  <div class="slogan">Ötletből alkalmazások</div>
+  <div class="slogan">${card.slogan}</div>
   <div class="rule"></div>
-  <div class="desc">Egyedi webes alkalmazások<br>kis- és középvállalatoknak</div>
+  <div class="desc">${card.desc}</div>
 </div>
 <div class="domain">appraforgo.hu</div>
 <div class="bar"></div>
@@ -76,21 +91,27 @@ const html = `
     viewport: { width: WIDTH, height: HEIGHT },
     deviceScaleFactor: 1,
   });
-  await page.setContent(html);
-  await page.waitForTimeout(300);
 
-  // A kártyának pontosan a vászon méretűnek kell lennie: ha a szöveg
-  // hosszabbra sikerül, itt derül ki, nem a Facebook megosztás-ellenőrzőjében.
-  const { w, h } = await page.evaluate(() => ({
-    w: document.documentElement.scrollWidth,
-    h: document.documentElement.scrollHeight,
-  }));
-  if (w > WIDTH || h > HEIGHT) {
-    await browser.close();
-    throw new Error(`A tartalom túllóg a vásznon: ${w}x${h}, elvárt ${WIDTH}x${HEIGHT}`);
+  for (const card of CARDS) {
+    const out = path.join(ROOT, 'assets', card.file);
+    await page.setContent(cardHtml(card));
+    await page.waitForTimeout(300);
+
+    // A kártyának pontosan a vászon méretűnek kell lennie: ha a szöveg
+    // hosszabbra sikerül — és az angol tipikusan hosszabb —, itt derül ki,
+    // nem a Facebook megosztás-ellenőrzőjében.
+    const { w, h } = await page.evaluate(() => ({
+      w: document.documentElement.scrollWidth,
+      h: document.documentElement.scrollHeight,
+    }));
+    if (w > WIDTH || h > HEIGHT) {
+      await browser.close();
+      throw new Error(`${card.file}: a tartalom túllóg a vásznon: ${w}x${h}, elvárt ${WIDTH}x${HEIGHT}`);
+    }
+
+    await page.screenshot({ path: out });
+    console.log(`kész: ${out} (${fs.statSync(out).size} bájt)`);
   }
 
-  await page.screenshot({ path: OUT });
   await browser.close();
-  console.log(`kész: ${OUT} (${fs.statSync(OUT).size} bájt)`);
 })();
