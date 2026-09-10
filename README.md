@@ -68,6 +68,16 @@ esetén nem kell átírni. A kötelező cégadat a láblécben van, tárgyilagos
 ```
 assets/zsebgarazs.png    1229 × 768   (eredeti 1144 × 768, oldalt +85 px  #F5F8F4)
 assets/leltarium.png     1144 × 715   (eredeti 1144 × 706, alul   +9 px   #F7F9FC)
+assets/leltarium-en.png  1227 × 767   (eredeti 1227 × 672, alul  +95 px — lásd lent)
+```
+
+A `leltarium-en.png` az angol lapon szerepel, a magyar `leltarium.png` helyett.
+Ennél a kiegészítés **nem tömör színnel** készült: az alsó képsor finom vízszintes
+átmenet, amit egy egyszínű sáv látható varratként vágott volna el. Helyette maga
+az utolsó képsor van lenyújtva, így az átmenet folytatódik:
+
+```python
+tail = im.crop((0, h - 1, w, h)).resize((w, pad), Image.NEAREST)
 ```
 
 Cseréhez elég ugyanezekkel a nevekkel felülírni őket. A keret `object-fit:
