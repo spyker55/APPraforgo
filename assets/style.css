@@ -176,6 +176,35 @@ a:hover { color: var(--brand-dark); }
   background: var(--brand-soft);
 }
 
+/* Keskeny kijelzőn a felső sor (logó + nyelvváltó + gomb) nem fért ki, és a
+   gomb harmadik sorba esett: 360 px-en 349 px kellett volna 323 px helyre.
+   Minden elemből lecsípünk annyit, hogy 344 px-ig egy sorban maradjon.
+   400 px alatt lép be, nem csak ott, ahol tört: 390 px-en is mindössze 4 px
+   volt a tartalék, amit egy hosszabb felirat vagy más betűmetrika elvinne. */
+@media (max-width: 25rem) {
+  .header-inner {
+    gap: .5rem .75rem;
+    padding-block: .6rem;
+  }
+  .brand { font-size: 1.05rem; gap: .45rem; }
+  .brand svg { width: 26px; height: 26px; }
+  .lang { min-width: 2.4rem; padding: .45rem .55rem; }
+  .header-inner .btn-sm { padding: .5rem .9rem; font-size: .85rem; }
+}
+
+/* Második fokozat a legkeskenyebb esetre. Nem csak a régi 320 px-es
+   telefonokról szól: aki nagyobb rendszer-betűméretet állít be, annál a
+   rem-ben mért hely ugyanígy fogy el egy mai készüléken is. */
+@media (max-width: 22rem) {
+  /* A .container padding-inline clamp alsó határa 1.15rem, ami ilyen keskenyen
+     már nem követi a kijelzőt. Az egész lapon lejjebb visszük, nem csak a
+     fejlécben, hogy a logó és a szekciók tartalma egy vonalban maradjon. */
+  .container { padding-inline: .8rem; }
+  .header-inner { gap: .5rem .6rem; }
+  .brand { font-size: 1rem; }
+  .header-inner .btn-sm { padding: .5rem .78rem; }
+}
+
 /* --- Gombok ------------------------------------------------------------- */
 
 .btn {
@@ -336,8 +365,12 @@ a:hover { color: var(--brand-dark); }
 }
 /* auto-fit: a kártyák maguktól döntik el, hány fér el egy sorba — így 800px
    körül nem préselődnek három keskeny hasábba. */
-.grid-3 { grid-template-columns: repeat(auto-fit, minmax(15.5rem, 1fr)); }
-.grid-2 { grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+/* A min() nélkül a minmax alsó határa kemény padló: 320 px-es kijelzőn a
+   19rem (304 px) szélesebb volt a rendelkezésre álló 283 px-nél, és a
+   referencia-kártyák 2 px-t kilógtak — az egész lap vízszintesen görgethető
+   lett. A min(..., 100%) engedi a sávot a konténer alá zsugorodni. */
+.grid-3 { grid-template-columns: repeat(auto-fit, minmax(min(15.5rem, 100%), 1fr)); }
+.grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr)); }
 
 .card {
   background: var(--surface);
