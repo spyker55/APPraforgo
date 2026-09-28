@@ -69,6 +69,7 @@ esetén nem kell átírni. A kötelező cégadat a láblécben van, tárgyilagos
 assets/zsebgarazs.png    1229 × 768   (eredeti 1144 × 768, oldalt +85 px  #F5F8F4)
 assets/leltarium.png     1144 × 715   (eredeti 1144 × 706, alul   +9 px   #F7F9FC)
 assets/leltarium-en.png  1227 × 767   (eredeti 1227 × 672, alul  +95 px — lásd lent)
+assets/szamlafolyo.png   1414 × 884   (eredeti 1340 × 884, oldalt 2×37 px — lásd lent)
 ```
 
 A `leltarium-en.png` az angol lapon szerepel, a magyar `leltarium.png` helyett.
@@ -79,6 +80,18 @@ az utolsó képsor van lenyújtva, így az átmenet folytatódik:
 ```python
 tail = im.crop((0, h - 1, w, h)).resize((w, pad), Image.NEAREST)
 ```
+
+A `szamlafolyo.png`-nél ugyanez a gond vízszintesen: a lap meleg átmenete miatt a
+bal és a jobb szél színe eltér (`#F6ECE3` és `#F4E6D7`), tehát egyetlen tömör szín
+az egyik oldalon biztosan látszana. Oldalanként a saját szélső képoszlopot nyújtjuk ki:
+
+```python
+lstrip = im.crop((0, 0, 1, h)).resize((left, h), Image.NEAREST)
+rstrip = im.crop((w - 1, 0, w, h)).resize((right, h), Image.NEAREST)
+```
+
+Ökölszabály: ha a kiegészítendő szél egyszínű, elég a tömör kitöltés; ha átmenetes,
+a szélső sort vagy oszlopot kell kinyújtani.
 
 Cseréhez elég ugyanezekkel a nevekkel felülírni őket. A keret `object-fit:
 contain`-nel dolgozik, tehát semmilyen arányt nem vág le — de a legszebb, ha a
