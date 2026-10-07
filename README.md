@@ -207,6 +207,25 @@ osztályt. Az animáció tehát sosem tudja elnyelni a tartalmat.
 szülőn belüli szomszédok 90 ms-onként lépcsőznek (legfeljebb négy lépcső); ezt a
 script számolja ki, és `--reveal-delay` változóban adja át a CSS-nek.
 
+**A referencia-kártyák ennél többet csinálnak:** hátradöntve indulnak, és a
+képernyőre érve „felállnak". A térhatás a `.grid-2` rács `perspective`-jéből jön
+— a kártyára tett `rotate` önmagában lapos maradna. A szabály a `.work.reveal`
+párosra szól, tehát HTML-t nem kellett hozzá módosítani.
+
+Két csapda van benne, mindkettő be van kommentezve a CSS-ben:
+
+- a döntés **`rotate`**, nem `transform` — ugyanazért, amiért a `translate`:
+  különben kiütné a kártyák hover-emelkedését;
+- a `.js-reveal .work.reveal` és a `.js-reveal .reveal.is-visible` **azonos
+  erősségű** (0,3,0), és az utóbbi áll előrébb a fájlban, ezért a végállapotot
+  négy osztállyal kell kimondani (`.js-reveal .work.reveal.is-visible`) —
+  különben a kártya sosem állna vissza egyenesbe.
+
+A kártyák kifutása szándékosan lassabb (1 mp, lágyabb easing), mint a többi
+elemé: a közös görbével a döntés háromnegyede 300 ms alatt lement, és a
+térhatás meg sem látszott. A dőlésszög a `rotate: x 30deg`, a mélység a
+`perspective: 1400px` — ezekkel lehet erősíteni vagy visszafogni a hatást.
+
 ⚠️ A **hero szándékosan kimarad.** A `h1` a lap legnagyobb szövege, tehát jó
 eséllyel az, amit a Google LCP-ként mér — egy 0,7 másodperces halványodás ennyivel
 tolná ki a mért értéket. Ha mégis kell, elég a hero blokkra ráírni a `reveal`

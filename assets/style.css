@@ -599,12 +599,39 @@ a:hover { color: var(--brand-dark); }
   opacity: 0;
   translate: 0 1.5rem;
   transition: opacity .7s cubic-bezier(.21, .6, .35, 1),
-              translate .7s cubic-bezier(.21, .6, .35, 1);
+              translate .7s cubic-bezier(.21, .6, .35, 1),
+              rotate .7s cubic-bezier(.21, .6, .35, 1);
   transition-delay: var(--reveal-delay, 0ms);
 }
 
 .js-reveal .reveal.is-visible {
   opacity: 1;
+  translate: none;
+}
+
+/* A referencia-kártyák ennél többet csinálnak: hátradöntve indulnak, és a
+   képernyőre érve „felállnak". A térhatás a rács `perspective`-jéből jön —
+   a kártyára tett `rotate` önmagában lapos maradna. Szintén önálló
+   tulajdonság, nem `transform`, hogy a hover-emelkedés megmaradjon.
+
+   A két `is-visible` szabály azonos erősségű (0,3,0), és az alapszabály
+   áll előrébb, ezért a végállapotot itt négy osztállyal kell kimondani —
+   különben a kártya sosem állna vissza egyenesbe. */
+
+.grid-2 { perspective: 1400px; }
+
+.js-reveal .work.reveal {
+  transform-origin: 50% 100%;
+  rotate: x 30deg;
+  translate: 0 2rem;
+  /* Lassabb kifutás, mint a többi elemnél: a közös easing a döntés
+     háromnegyedét 300 ms alatt ledolgozta, így a térhatás meg sem látszott. */
+  transition-duration: 1s;
+  transition-timing-function: cubic-bezier(.25, .46, .45, .94);
+}
+
+.js-reveal .work.reveal.is-visible {
+  rotate: none;
   translate: none;
 }
 
@@ -618,7 +645,7 @@ a:hover { color: var(--brand-dark); }
     transition-duration: .01ms !important;
   }
   /* Itt nem úszik be semmi: minden elem rögtön a végállapotában áll. */
-  .js-reveal .reveal { opacity: 1; translate: none; transition: none; }
+  .js-reveal .reveal { opacity: 1; translate: none; rotate: none; transition: none; }
   .btn:hover, .work:hover { transform: none; }
   .work:hover .work-shot img { transform: none; }
 }
