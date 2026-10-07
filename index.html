@@ -50,6 +50,11 @@
   "taxID": "92220155-1-30"
 }
 </script>
+<!-- A beúszó animáció csak akkor rejti el előre az elemeket, ha tényleg van
+     JavaScript. Ez a sor még a <body> kirajzolása előtt fut, így nincs
+     felvillanás; JS nélkül minden rögtön látszik. -->
+<script>document.documentElement.classList.add("js-reveal");</script>
+
 </head>
 
 <body id="top">
@@ -209,13 +214,13 @@
   <!-- Szolgáltatások -->
   <section class="section" id="szolgaltatasok">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2>Miben segítünk</h2>
         <p>Abban, ami egy jól megtervezett webes alkalmazással egyszerűbbé tehető, és valóban időt, munkát vagy pénzt takarít meg.</p>
       </div>
 
       <div class="grid grid-3">
-        <article class="card">
+        <article class="card reveal">
           <div class="card-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2.5" y="4" width="19" height="15" rx="2"/><path d="M2.5 8.5h19M6 12.5h6M6 15.5h9"/>
@@ -225,7 +230,7 @@
           <p>Amit a dobozos szoftver nem tud. A cég saját folyamatára szabva, böngészőből, telepítés nélkül.</p>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="card-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 7h9a4 4 0 0 1 0 8H8a4 4 0 0 0 0 8"/><path d="m16.5 4.5 3 2.5-3 2.5"/><circle cx="4" cy="7" r="1.6"/>
@@ -235,7 +240,7 @@
           <p>A táblázatokban és papíron futó munkából működő rendszer lesz. Kevesebb kézi másolás, kevesebb elrontott adat.</p>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="card-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.2"/>
@@ -251,25 +256,25 @@
   <!-- Folyamat -->
   <section class="section" id="folyamat" style="background: var(--brand-soft);">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2>Hogyan dolgozunk</h2>
         <p>Négy lépés, meglepetések nélkül.</p>
       </div>
 
       <div class="steps">
-        <article class="step">
+        <article class="step reveal">
           <h3>Beszélgetés</h3>
           <p>Végigvesszük, mi a probléma, és mennyit ér megoldani.</p>
         </article>
-        <article class="step">
+        <article class="step reveal">
           <h3>Ajánlat és terv</h3>
           <p>Fix hatókör, fix ár, világos határidő. Írásban.</p>
         </article>
-        <article class="step">
+        <article class="step reveal">
           <h3>Fejlesztés</h3>
           <p>Rendszeresen látja, hol tart. Menet közben lehet igazítani.</p>
         </article>
-        <article class="step">
+        <article class="step reveal">
           <h3>Élesítés</h3>
           <p>Átadás, betanítás, és utána is elérhetők maradunk.</p>
         </article>
@@ -280,13 +285,13 @@
   <!-- Referenciák -->
   <section class="section" id="referenciak">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2>Referenciamunkák</h2>
         <p>Három saját fejlesztésű termék, amely ma is éles üzemben van.</p>
       </div>
 
       <div class="grid grid-2">
-        <a class="card work" href="https://zsebgarazs.hu" target="_blank" rel="noopener noreferrer">
+        <a class="card work reveal" href="https://zsebgarazs.hu" target="_blank" rel="noopener noreferrer">
           <div class="work-shot">
             <img src="assets/zsebgarazs.png" width="1229" height="768" loading="lazy" decoding="async"
                  alt="A ZsebGarázs weboldalának nyitóképernyője egy autó adatlapjával">
@@ -307,7 +312,7 @@
           </span>
         </a>
 
-        <a class="card work" href="https://leltarium.hu" target="_blank" rel="noopener noreferrer">
+        <a class="card work reveal" href="https://leltarium.hu" target="_blank" rel="noopener noreferrer">
           <div class="work-shot">
             <img src="assets/leltarium.png" width="1144" height="715" loading="lazy" decoding="async"
                  alt="A Leltárium weboldalának nyitóképernyője az áttekintő műszerfallal">
@@ -328,7 +333,7 @@
           </span>
         </a>
 
-        <a class="card work" href="https://szamlafolyo.hu" target="_blank" rel="noopener noreferrer">
+        <a class="card work reveal" href="https://szamlafolyo.hu" target="_blank" rel="noopener noreferrer">
           <div class="work-shot">
             <img src="assets/szamlafolyo.png" width="1414" height="884" loading="lazy" decoding="async"
                  alt="A SzámlaFolyó weboldalának nyitóképernyője a bizonylatok feltöltő felületével">
@@ -355,7 +360,7 @@
   <!-- Kapcsolat -->
   <section class="section" id="kapcsolat">
     <div class="container">
-      <div class="contact">
+      <div class="contact reveal">
         <h2>Beszéljünk róla</h2>
         <p>
           Írja meg pár mondatban, mi a probléma és mi lenne a jó vég&shy;eredmény.
@@ -397,6 +402,40 @@
 
 <script>
   document.getElementById("ev").textContent = new Date().getFullYear();
+</script>
+
+<!-- Beúszó kártyák: ami a képernyőre ér, egyszer halkan felúszik. A hero
+     szándékosan nincs közte — az a lap legnagyobb szövege, és egy fade
+     késleltetné a Google által mért LCP-t. -->
+<script>
+  (function () {
+    var items = document.querySelectorAll(".reveal");
+
+    // Nincs IntersectionObserver? Akkor vissza a rejtést, és kész.
+    if (!("IntersectionObserver" in window) || !items.length) {
+      document.documentElement.classList.remove("js-reveal");
+      return;
+    }
+
+    // Egy csoportban (azonos szülő) a szomszédok lépcsőzve indulnak.
+    items.forEach(function (el) {
+      var i = 0;
+      for (var p = el.previousElementSibling; p; p = p.previousElementSibling) {
+        if (p.classList.contains("reveal")) i++;
+      }
+      el.style.setProperty("--reveal-delay", Math.min(i, 4) * 90 + "ms");
+    });
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        io.unobserve(entry.target);          // egyszer fut le, utána elengedjük
+      });
+    }, { threshold: .15, rootMargin: "0px 0px -10% 0px" });
+
+    items.forEach(function (el) { io.observe(el); });
+  })();
 </script>
 
 <!-- Vercel Web Analytics. Süti nélküli, saját domainről töltődik (nincs külső

@@ -188,6 +188,36 @@ Kép cseréje után a Facebook a régi verziót cache-eli; a
 [Sharing Debugger](https://developers.facebook.com/tools/debug/) *Scrape Again*
 gombja frissíti.
 
+## Beúszó animáció
+
+Görgetéskor a szekciócímek és a kártyák halkan felúsznak a helyükre. Három
+darabból áll:
+
+1. a `<head>`-ben egyetlen sor felteszi a `js-reveal` osztályt a `<html>`-re,
+2. az `assets/style.css` **csak** `.js-reveal .reveal` alatt rejti el az elemeket,
+3. a `<body>` végén egy `IntersectionObserver` ad `.is-visible` osztályt annak,
+   ami a képernyőre ér — elemenként egyszer, utána elengedi.
+
+Ez a sorrend a lényeg: **JavaScript nélkül semmi nem tűnik el.** A rejtés csak
+akkor lép életbe, ha a `<head>` sora tényleg lefutott, és ha a böngésző nem
+ismeri az `IntersectionObserver`-t, a lap alján lévő script le is veszi az
+osztályt. Az animáció tehát sosem tudja elnyelni a tartalmat.
+
+Új elemet a `reveal` osztály tesz beúszóvá, más teendő nincs vele. Az azonos
+szülőn belüli szomszédok 90 ms-onként lépcsőznek (legfeljebb négy lépcső); ezt a
+script számolja ki, és `--reveal-delay` változóban adja át a CSS-nek.
+
+⚠️ A **hero szándékosan kimarad.** A `h1` a lap legnagyobb szövege, tehát jó
+eséllyel az, amit a Google LCP-ként mér — egy 0,7 másodperces halványodás ennyivel
+tolná ki a mért értéket. Ha mégis kell, elég a hero blokkra ráírni a `reveal`
+osztályt, de a sebességmérés rovására megy.
+
+`prefers-reduced-motion: reduce` esetén az egész kikapcsol: minden elem rögtön a
+végállapotában áll, görgetés nélkül is.
+
+A két script mindkét lapon megvan (a kommentek nyelvenként mások) — a fenti
+duplikációs figyelmeztetés erre is áll.
+
 ## Amit szándékosan nem tartalmaz
 
 - **Nincs külső betűtípus** (Google Fonts sem) — rendszer-fontstack. Nulla külső
@@ -200,9 +230,10 @@ gombja frissíti.
   nem kell hozzá backend és nincs spam-kezelés.
 - **Nincs sötét mód** — az oldal szándékosan világos.
 
-Saját JavaScript egyetlen sor: a láblécben az évszám frissítése. Nélküle is helyes
-évszám látszik, csak nem frissül magától. Ezen kívül a Vercel Web Analytics
-mérőscriptje fut, `defer`-rel — a `<body>` végén, az `index.html`-ben.
+Saját JavaScript két helyen van, összesen pár tucat sor: a láblécben az évszám
+frissítése (nélküle is helyes évszám látszik, csak nem frissül magától) és a
+beúszó animáció — lásd fentebb. Ezen kívül a Vercel Web Analytics mérőscriptje
+fut, `defer`-rel, a `<body>` végén, mindkét lapon.
 
 A mérés a Vercel projekt **Analytics** fülén kapcsolható ki-be. Ha kikapcsolod,
 a scriptet is vedd ki az `index.html`-ből, különben 404-re fut.

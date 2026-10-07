@@ -51,6 +51,11 @@
   "vatID": "HU92220155"
 }
 </script>
+<!-- The reveal animation only pre-hides elements when JavaScript is actually
+     available. This line runs before <body> paints, so there is no flash of
+     hidden content; without JS everything shows straight away. -->
+<script>document.documentElement.classList.add("js-reveal");</script>
+
 </head>
 
 <body id="top">
@@ -211,13 +216,13 @@
   <!-- Services -->
   <section class="section" id="services">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2>What we help with</h2>
         <p>With whatever a well-designed web application can make simpler — and where it genuinely saves time, effort or money.</p>
       </div>
 
       <div class="grid grid-3">
-        <article class="card">
+        <article class="card reveal">
           <div class="card-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2.5" y="4" width="19" height="15" rx="2"/><path d="M2.5 8.5h19M6 12.5h6M6 15.5h9"/>
@@ -227,7 +232,7 @@
           <p>What off-the-shelf software cannot do. Shaped around your own process, running in the browser with nothing to install.</p>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="card-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M4 7h9a4 4 0 0 1 0 8H8a4 4 0 0 0 0 8"/><path d="m16.5 4.5 3 2.5-3 2.5"/><circle cx="4" cy="7" r="1.6"/>
@@ -237,7 +242,7 @@
           <p>Work that runs on spreadsheets and paper becomes a working system. Less copying by hand, fewer records broken along the way.</p>
         </article>
 
-        <article class="card">
+        <article class="card reveal">
           <div class="card-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/><circle cx="12" cy="12" r="3.2"/>
@@ -253,25 +258,25 @@
   <!-- Process -->
   <section class="section" id="process" style="background: var(--brand-soft);">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2>How we work</h2>
         <p>Four steps, no surprises.</p>
       </div>
 
       <div class="steps">
-        <article class="step">
+        <article class="step reveal">
           <h3>Conversation</h3>
           <p>We go through what the problem is, and what solving it is worth.</p>
         </article>
-        <article class="step">
+        <article class="step reveal">
           <h3>Quote and plan</h3>
           <p>Fixed scope, fixed price, a clear deadline. In writing.</p>
         </article>
-        <article class="step">
+        <article class="step reveal">
           <h3>Development</h3>
           <p>You see where it stands at regular intervals. Course corrections are possible along the way.</p>
         </article>
-        <article class="step">
+        <article class="step reveal">
           <h3>Go-live</h3>
           <p>Handover, training, and we stay reachable afterwards.</p>
         </article>
@@ -282,13 +287,13 @@
   <!-- Work -->
   <section class="section" id="work">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head reveal">
         <h2>Our work</h2>
         <p>Three products of our own, all live and in daily use. ZsebGarázs and SzámlaFolyó are only available in Hungarian.</p>
       </div>
 
       <div class="grid grid-2">
-        <a class="card work" href="https://zsebgarazs.hu" target="_blank" rel="noopener noreferrer">
+        <a class="card work reveal" href="https://zsebgarazs.hu" target="_blank" rel="noopener noreferrer">
           <div class="work-shot">
             <img src="../assets/zsebgarazs.png" width="1229" height="768" loading="lazy" decoding="async"
                  alt="The ZsebGarázs home screen showing the detail page of a car">
@@ -309,7 +314,7 @@
           </span>
         </a>
 
-        <a class="card work" href="https://leltarium.com" target="_blank" rel="noopener noreferrer">
+        <a class="card work reveal" href="https://leltarium.com" target="_blank" rel="noopener noreferrer">
           <div class="work-shot">
             <img src="../assets/leltarium-en.png" width="1227" height="767" loading="lazy" decoding="async"
                  alt="The Leltárium home page showing a dashboard of active devices, licences, monthly spend and expiry warnings">
@@ -330,7 +335,7 @@
           </span>
         </a>
 
-        <a class="card work" href="https://szamlafolyo.hu" target="_blank" rel="noopener noreferrer">
+        <a class="card work reveal" href="https://szamlafolyo.hu" target="_blank" rel="noopener noreferrer">
           <div class="work-shot">
             <img src="../assets/szamlafolyo.png" width="1414" height="884" loading="lazy" decoding="async"
                  alt="The SzámlaFolyó home page showing the document upload screen">
@@ -357,7 +362,7 @@
   <!-- Contact -->
   <section class="section" id="contact">
     <div class="container">
-      <div class="contact">
+      <div class="contact reveal">
         <h2>Let's talk</h2>
         <p>
           Tell us in a few sentences what the problem is and what a good outcome
@@ -399,6 +404,40 @@
 
 <script>
   document.getElementById("ev").textContent = new Date().getFullYear();
+</script>
+
+<!-- Cards floating in: anything reaching the viewport rises once, quietly.
+     The hero is deliberately left out — it is the page's largest text, and
+     a fade would delay the LCP that Google measures. -->
+<script>
+  (function () {
+    var items = document.querySelectorAll(".reveal");
+
+    // Nincs IntersectionObserver? Akkor vissza a rejtést, és kész.
+    if (!("IntersectionObserver" in window) || !items.length) {
+      document.documentElement.classList.remove("js-reveal");
+      return;
+    }
+
+    // Within one group (same parent) neighbours start staggered.
+    items.forEach(function (el) {
+      var i = 0;
+      for (var p = el.previousElementSibling; p; p = p.previousElementSibling) {
+        if (p.classList.contains("reveal")) i++;
+      }
+      el.style.setProperty("--reveal-delay", Math.min(i, 4) * 90 + "ms");
+    });
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        io.unobserve(entry.target);          // runs once, then we let it go
+      });
+    }, { threshold: .15, rootMargin: "0px 0px -10% 0px" });
+
+    items.forEach(function (el) { io.observe(el); });
+  })();
 </script>
 
 <!-- Vercel Web Analytics. Cookie-free, served from our own domain (no external

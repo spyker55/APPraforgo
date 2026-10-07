@@ -583,6 +583,31 @@ a:hover { color: var(--brand-dark); }
   font-size: .875rem;
 }
 
+/* --- Beúszó elemek ------------------------------------------------------ */
+
+/* A .reveal elemek csak akkor rejtőznek el, ha a JS tényleg lefutott: a
+   js-reveal osztályt a <head> egyetlen sora teszi fel. JavaScript nélkül —
+   vagy ha a lap alján lévő script elhasalna — minden rögtön látszik, tehát
+   az animáció sosem tudja elrejteni a tartalmat. */
+
+/* Szándékosan az önálló `translate` tulajdonság, nem a `transform`: így a
+   kártyák meglévő hover-emelkedése (`transform: translateY(-3px)`) külön
+   csatornán marad, és nem üti ki ez a nála erősebb szabály. Ahol a böngésző
+   nem ismeri a `translate`-et, ott marad a sima halványodás. */
+
+.js-reveal .reveal {
+  opacity: 0;
+  translate: 0 1.5rem;
+  transition: opacity .7s cubic-bezier(.21, .6, .35, 1),
+              translate .7s cubic-bezier(.21, .6, .35, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js-reveal .reveal.is-visible {
+  opacity: 1;
+  translate: none;
+}
+
 /* --- Mozgáscsökkentés --------------------------------------------------- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -592,6 +617,8 @@ a:hover { color: var(--brand-dark); }
     animation-iteration-count: 1 !important;
     transition-duration: .01ms !important;
   }
+  /* Itt nem úszik be semmi: minden elem rögtön a végállapotában áll. */
+  .js-reveal .reveal { opacity: 1; translate: none; transition: none; }
   .btn:hover, .work:hover { transform: none; }
   .work:hover .work-shot img { transform: none; }
 }
