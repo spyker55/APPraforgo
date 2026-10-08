@@ -86,8 +86,23 @@ automatikusan**: önálló lapként renderelődnek, nem látják az `assets/styl
 így a színek a `design/og-image.js` `cardHtml` függvényében meg vannak ismételve.
 Palettaváltáskor ott is át kell vezetni, és újrafuttatni a generátort.
 
-Amihez nem nyúltunk: a `design/logo-variants/` mappa még a régi kék-arany
-palettát viszi. Belső összehasonlító anyag, nem kerül ki a lapra.
+A `design/logo-variants/` mappa és a két összehasonlító lapja
+(`design/logo-preview.html`, `design/logo-nagy.html`) szintén követi a palettát.
+Két fájl nevet is váltott, mert a nevük olyan színt mondott, ami már nincs:
+
+| Régi | Új | Miért |
+| --- | --- | --- |
+| `logo-ikonos-kek.svg` | `logo-ikonos-terrakotta.svg` | kék ikonok → a kiemelőszín, 34% helyett 42%-on |
+| `logo-kek.svg` | `logo-forditott.svg` | kék szirmok → terrakotta és korall, arany tányérral |
+
+⚠️ A `logo-vonalas.svg` gyűrűje a tányér új színét kapta, ami **sötét háttéren
+eltűnik** — vonalas rajz, nincs mögötte tömör folt. Világos lapra készült, és
+semmi nem hivatkozik rá; ha valaha sötét alapon kellene, a gyűrű kapjon aranyat.
+
+⚠️ A `logo-preview.html` a `logo-jelenlegi.svg`-t jelöli „jelenlegi"-ként, de a
+ténylegesen kiszállított `assets/logo.svg` a `logo-ikonos-feher.svg`-vel azonos
+(szóközöktől eltekintve bájtra). A lap még az ikonok bevezetése előtti
+állapotot tükrözi. Ez nem a paletta dolga, ezért nem nyúltunk hozzá.
 
 **Szövegek** — közvetlenül az `index.html`-ben. A szekciók sorrendben:
 hero → *Miben segítünk* → *Hogyan dolgozunk* → *Referenciamunkák* → *Beszéljünk róla* → lábléc.

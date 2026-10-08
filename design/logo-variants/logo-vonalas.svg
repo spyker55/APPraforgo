@@ -12,6 +12,6 @@
     <use href="#pd" transform="rotate(288.0 32 32)"/>
     <use href="#pd" transform="rotate(324.0 32 32)"/>
   </g>
-  <circle cx="32" cy="32" r="10.5" fill="none" stroke="#2A4BD7" stroke-width="3.4"/>
-  <circle cx="32" cy="32" r="3.2" fill="#2A4BD7"/>
+  <circle cx="32" cy="32" r="10.5" fill="none" stroke="#12161C" stroke-width="3.4"/>
+  <circle cx="32" cy="32" r="3.2" fill="#12161C"/>
 </svg>
