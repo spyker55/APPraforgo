@@ -38,18 +38,52 @@ alatt nincs gyökér. Nyelvváltó teszteléséhez indítsd el a fenti szervert.
 ## Szerkesztés
 
 **Színek** — az `assets/style.css` tetején, a `:root` blokkban van minden szín egy
-helyen. A `--brand` a királykék, a `--sun` a napraforgó sárga; ezt a kettőt átírva az
-egész oldal átszíneződik.
+helyen. A paletta tiszta fehér alapon dolgozik: majdnem fekete szöveg, négy
+pasztell mező, és egy terrakotta kiemelés.
 
 | Változó | Érték | Szerep |
 | --- | --- | --- |
-| `--brand` | `#2A4BD7` | királykék: linkek, gombok, kiemelés |
-| `--sun` | `#F5B301` | napraforgó akcentus |
-| `--bg` | `#FCFBF7` | törtfehér háttér |
-| `--ink` | `#10162B` | főszöveg |
+| `--bg` | `#FEFFFF` | lap háttere |
+| `--ink` | `#12161C` | főszöveg és címek |
+| `--ink-solid` | `#161A22` | tömör sötét felület: elsődleges gomb |
+| `--muted` | `#4E525B` | másodlagos szöveg |
+| `--brand` | `#BC3D17` | terrakotta: linkek, ikonok, kiemelés |
+| `--brand-dark` | `#9A300F` | hover |
+| `--brand-soft` | `#FFECE5` | barack mező |
+| `--coral` | `#F79273` | apró dekoratív jelek |
+| `--sun` | `#F9ECA7` | erősebb sárga |
+| `--sun-soft` | `#FEF8D2` | napsárga mező (*Hogyan dolgozunk* sáv) |
+| `--sun-ink` | `#7A5E06` | sárga családú szöveg (lépések sorszáma) |
+| `--mint` | `#E2FAED` | pasztell mező |
+| `--lilac` | `#F5F0FF` | pasztell mező |
+| `--line` | `#E4E6E9` | hajszálvonal |
 
-⚠️ A `--sun` **csak háttérként vagy grafikaként** használható, szövegszínként nem —
-fehéren nem éri el a WCAG AA kontrasztot.
+⚠️ A pasztellek (`--sun`, `--sun-soft`, `--mint`, `--lilac`, `--brand-soft`,
+`--coral`) **csak háttérként vagy grafikaként** használhatók, szövegszínként nem —
+fehéren egyik sem éri el a WCAG AA kontrasztot. Sárga családú szöveghez a
+`--sun-ink` való.
+
+### Honnan jön a paletta
+
+A színek a biri.chat oldaláról származnak: nem szemre becsülve, hanem a
+kirajzolt lapról pixelmintával véve, majd minden használt szöveg–háttér párosra
+WCAG AA-ra ellenőrizve. A legszorosabb párosítások: terrakotta szöveg barack
+mezőn 4,8:1, terrakotta link fehéren 5,5:1, `--sun-ink` a sárga sávon 5,7:1 —
+mind a 4,5:1-es küszöb fölött. Ha a terrakottát sötétítenéd vagy a mezőket
+mélyítenéd, ezeket érdemes újraszámolni.
+
+Két dolog nem a referenciaoldalról jön:
+
+* **A napraforgó szirmai** (`#F5B301` / `#FFC94A`) a logóban megmaradtak. A
+  referencia paletta sárgái pont a márka sárgái, úgyhogy nem kellett hozzányúlni.
+* **A logó tányérja** viszont királykékről majdnem feketére (`#12161C`) váltott:
+  kék nem maradt sehol máshol az oldalon, egyedül állva kilógott volna. Ez a
+  valódi napraforgó színe is. Visszaállítani egy érték átírása mindkét lapon,
+  az `assets/logo.svg`-ben és a `favicon.svg`-ben.
+
+Amihez nem nyúltunk: az `assets/og*.png` közösségi előnézeti képek és a
+`design/logo-variants/` mappa még a régi kék-arany palettát viszik. Az előbbit
+akkor érdemes újragenerálni, ha a megosztott link előnézete számít.
 
 **Szövegek** — közvetlenül az `index.html`-ben. A szekciók sorrendben:
 hero → *Miben segítünk* → *Hogyan dolgozunk* → *Referenciamunkák* → *Beszéljünk róla* → lábléc.

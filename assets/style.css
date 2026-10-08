@@ -1,23 +1,35 @@
 /* ==========================================================================
    APPraforgó — landing page
-   Paletta: királykék + napraforgó arany, világos törtfehér alapon.
+   Paletta: tiszta fehér alap, majdnem fekete szöveg, pasztell mezők
+   (barack / napsárga / menta / levendula) és terrakotta kiemelés.
    ========================================================================== */
 
 :root {
   color-scheme: light;
 
-  /* Színek */
-  --bg:          #FCFBF7;
+  /* Színek.
+     Minden érték a referenciaoldal kirajzolt képéből mintázva, nem szemre
+     becsülve. A párosítások WCAG AA-ra ellenőrizve (a számokat lásd lentebb
+     az egyes szabályoknál). */
+  --bg:          #FEFFFF;   /* lap háttere: fehér, hajszálnyi hideg árnyalattal */
   --surface:     #FFFFFF;
-  --ink:         #10162B;
-  --muted:       #5A6180;
-  --brand:       #2A4BD7;
-  --brand-dark:  #1E37A6;
-  --brand-soft:  #EEF1FE;
-  --sun:         #F5B301;
-  --sun-soft:    #FFF3CF;
-  --sun-ink:     #7A5B00;  /* sárga családú szöveg világos háttéren, AA-kontraszttal */
-  --line:        #E6E4DC;
+  --ink:         #12161C;   /* főszöveg és címek */
+  --ink-solid:   #161A22;   /* tömör sötét felület: elsődleges gomb */
+  --muted:       #4E525B;   /* másodlagos szöveg — 7.8:1 a lap hátterén */
+  --brand:       #BC3D17;   /* terrakotta: linkek, ikonok, kiemelés — 5.5:1 */
+  --brand-dark:  #9A300F;   /* hover — 7.5:1 */
+  --brand-soft:  #FFECE5;   /* barack mező */
+  --coral:       #F79273;   /* korall: apró dekoratív jelek */
+
+  /* A napraforgó-sárga megmaradt: a referenciaoldalnak is pont ez a két
+     sárgája van, úgyhogy a márkaszín nem esett áldozatul az átszínezésnek. */
+  --sun:         #F9ECA7;   /* erősebb sárga */
+  --sun-soft:    #FEF8D2;   /* napsárga mező */
+  --sun-ink:     #7A5E06;   /* sárga családú szöveg — 5.7:1 a sárga mezőn */
+
+  --mint:        #E2FAED;
+  --lilac:       #F5F0FF;
+  --line:        #E4E6E9;   /* hajszálvonal */
 
   /* Tipográfia */
   --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto,
@@ -27,8 +39,8 @@
   --container: 1120px;
   --radius: 16px;
   --radius-sm: 10px;
-  --shadow: 0 1px 2px rgba(16, 22, 43, .05), 0 8px 24px rgba(16, 22, 43, .06);
-  --shadow-lift: 0 2px 4px rgba(16, 22, 43, .06), 0 16px 40px rgba(16, 22, 43, .10);
+  --shadow: 0 1px 2px rgba(18, 22, 28, .05), 0 8px 24px rgba(18, 22, 28, .06);
+  --shadow-lift: 0 2px 4px rgba(18, 22, 28, .06), 0 16px 40px rgba(18, 22, 28, .10);
 }
 
 /* --- Alapok ------------------------------------------------------------- */
@@ -87,7 +99,7 @@ a:hover { color: var(--brand-dark); }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(252, 251, 247, .88);
+  background: rgba(254, 255, 255, .85);
   backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid var(--line);
 }
@@ -223,26 +235,30 @@ a:hover { color: var(--brand-dark); }
 }
 .btn:hover { transform: translateY(-1px); }
 
+/* A referenciaoldalon az elsődleges gomb nem márkaszínű, hanem tömör
+   majdnem-fekete pill — a pasztell mezők mellett ez ad kapaszkodót a szemnek.
+   Fehér szöveggel 17.4:1. */
 .btn-primary {
-  background: var(--brand);
+  background: var(--ink-solid);
   color: #fff;
-  box-shadow: 0 6px 18px rgba(42, 75, 215, .28);
+  box-shadow: 0 6px 18px rgba(18, 22, 28, .22);
 }
-.btn-primary:hover { background: var(--brand-dark); color: #fff; box-shadow: 0 10px 26px rgba(42, 75, 215, .34); }
+.btn-primary:hover { background: var(--ink); color: #fff; box-shadow: 0 10px 26px rgba(18, 22, 28, .28); }
 
 .btn-ghost {
   background: transparent;
   color: var(--ink);
   border-color: var(--line);
 }
-.btn-ghost:hover { background: var(--surface); border-color: var(--brand); color: var(--brand-dark); }
+.btn-ghost:hover { background: var(--brand-soft); border-color: var(--brand); color: var(--brand-dark); }
 
+/* Jelenleg egyik lap sem használja; ha előkerül, a sárga mező a háttere. */
 .btn-sun {
   background: var(--sun);
   color: var(--ink);
-  box-shadow: 0 6px 18px rgba(245, 179, 1, .32);
+  box-shadow: 0 6px 18px rgba(199, 160, 40, .24);
 }
-.btn-sun:hover { background: #ffc21f; color: var(--ink); }
+.btn-sun:hover { background: #F5E48C; color: var(--ink); }
 
 .btn-sm { padding: .5rem 1rem; font-size: .9rem; }
 
@@ -272,7 +288,7 @@ a:hover { color: var(--brand-dark); }
   content: "";
   width: .45rem; height: .45rem;
   border-radius: 50%;
-  background: var(--sun);
+  background: var(--coral);
 }
 
 /* --- Hero --------------------------------------------------------------- */
@@ -282,8 +298,9 @@ a:hover { color: var(--brand-dark); }
   overflow: hidden;
   padding-block: clamp(3rem, 7vw, 5rem) clamp(2.75rem, 5vw, 4rem);
   background:
-    radial-gradient(60rem 32rem at 78% -12%, var(--sun-soft) 0%, transparent 62%),
-    radial-gradient(52rem 30rem at 8% 0%, var(--brand-soft) 0%, transparent 60%);
+    radial-gradient(54rem 30rem at 86% -10%, var(--sun-soft) 0%, transparent 62%),
+    radial-gradient(48rem 30rem at 6% -4%, var(--brand-soft) 0%, transparent 60%),
+    radial-gradient(60rem 26rem at 50% 118%, var(--lilac) 0%, transparent 64%);
 }
 
 .hero-grid {
@@ -305,7 +322,7 @@ a:hover { color: var(--brand-dark); }
 }
 .hero-visual svg {
   width: min(24rem, 100%);
-  filter: drop-shadow(0 24px 50px rgba(245, 179, 1, .35));
+  filter: drop-shadow(0 24px 50px rgba(247, 146, 115, .34));
   animation: napraforgo 120s linear infinite;
 }
 @keyframes napraforgo { to { transform: rotate(360deg); } }
@@ -395,6 +412,11 @@ a:hover { color: var(--brand-dark); }
 }
 .card-icon svg { width: 1.5rem; height: 1.5rem; }
 
+/* A három csempe nem ugyanaz a pasztell: a referenciaoldal is váltogatja a
+   mezőszíneket. A terrakotta ikon mindhárom háttéren 4.8:1 fölött van. */
+.grid-3 > .card:nth-child(2) .card-icon { background: var(--lilac); }
+.grid-3 > .card:nth-child(3) .card-icon { background: var(--mint); }
+
 /* --- Folyamat ----------------------------------------------------------- */
 
 .steps {
@@ -421,7 +443,10 @@ a:hover { color: var(--brand-dark); }
   color: var(--sun-ink);
   margin-bottom: .5rem;
 }
-.step { border-top-color: var(--sun); }
+/* Korall, nem terrakotta: négy teljes szélességű vonalhoz a terrakotta túl
+   hangos volt a halk sárga sávon. A lépés sorszáma (--sun-ink, 5.7:1) viszi a
+   tagolást, a vonal csak kíséri. */
+.step { border-top-color: var(--coral); }
 .step h3 { font-size: 1.05rem; margin-bottom: .4rem; }
 .step p { color: var(--muted); font-size: .95rem; }
 
@@ -438,7 +463,7 @@ a:hover { color: var(--brand-dark); }
 .work:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-lift);
-  border-color: #CFD6F7;
+  border-color: #FCD1C3;
   color: inherit;
 }
 
@@ -474,8 +499,8 @@ a:hover { color: var(--brand-dark); }
   width: .32rem;
   height: .32rem;
   border-radius: 50%;
-  background: #D8D5CB;
-  box-shadow: .52rem 0 0 #D8D5CB, 1.04rem 0 0 #D8D5CB;
+  background: #DCDEE2;
+  box-shadow: .52rem 0 0 #DCDEE2, 1.04rem 0 0 #DCDEE2;
 }
 .work-shot img {
   display: block;
@@ -525,18 +550,20 @@ a:hover { color: var(--brand-dark); }
 
 /* --- Kapcsolat ---------------------------------------------------------- */
 
+/* A referenciaoldal záró blokkja nem sötét, hanem világos barack mező sötét
+   szöveggel — ezért fordult meg itt a panel. A szöveg 15.9:1, a link
+   aláhúzása 4.8:1 a panel legsötétebb pontján. */
 .contact {
-  background: var(--brand);
-  color: #fff;
+  background:
+    radial-gradient(26rem 18rem at 88% 112%, var(--sun-soft) 0%, transparent 62%),
+    linear-gradient(180deg, var(--brand-soft) 0%, #FEE3DA 100%);
+  color: var(--ink);
   border-radius: clamp(18px, 3vw, 28px);
   padding: clamp(2rem, 5vw, 3.5rem);
   text-align: center;
-  background-image:
-    radial-gradient(30rem 20rem at 85% 110%, rgba(245, 179, 1, .28) 0%, transparent 60%),
-    radial-gradient(26rem 18rem at 10% -20%, rgba(255, 255, 255, .16) 0%, transparent 60%);
 }
 .contact h2 { font-size: clamp(1.7rem, 1.2rem + 2vw, 2.5rem); }
-.contact p { color: rgba(255, 255, 255, .84); margin: .9rem auto 0; max-width: 44ch; }
+.contact p { color: var(--muted); margin: .9rem auto 0; max-width: 44ch; }
 
 .mail {
   display: inline-block;
@@ -544,14 +571,16 @@ a:hover { color: var(--brand-dark); }
   font-size: clamp(1.2rem, .9rem + 1.8vw, 2rem);
   font-weight: 700;
   letter-spacing: -.02em;
-  color: #fff;
+  color: var(--ink);
   text-decoration: none;
-  border-bottom: 3px solid var(--sun);
+  border-bottom: 3px solid var(--brand);
   padding-bottom: .15rem;
   word-break: break-word;
 }
-.mail:hover { color: var(--sun); }
-.contact :focus-visible { outline-color: #fff; }
+.mail:hover { color: var(--brand); }
+/* A panel világos lett, így a globális terrakotta fókuszkeret látszik rajta
+   (4.8:1) — a korábbi fehér keret itt eltűnt volna. */
+.contact :focus-visible { outline-color: var(--brand); }
 
 /* --- Lábléc ------------------------------------------------------------- */
 
