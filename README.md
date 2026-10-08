@@ -37,19 +37,23 @@ alatt nincs gyökér. Nyelvváltó teszteléséhez indítsd el a fenti szervert.
 
 ## Szerkesztés
 
-**Színek** — az `assets/style.css` tetején, a `:root` blokkban van minden szín egy
-helyen. A `--brand` a királykék, a `--sun` a napraforgó sárga; ezt a kettőt átírva az
-egész oldal átszíneződik.
+**Színek** — az `assets/style.css` tetején, a `:root` blokkban vannak. A világos
+palettát a biri.chat inspirálta: fehér alap, korall, égkék, menta, citromsárga és
+lila pasztellek. A gombok és a főszöveg sötét színűek; a pasztellszínek a kártyák,
+ikonok és grafikai kiemelések hátterét adják. A `*-deep` árnyalatok sötétebbek,
+szöveges kiemeléshez használhatók. A közös CSS a magyar és az angol oldalt is
+formázza, a beágyazott napraforgó színeit is ehhez igazítja.
 
-| Változó | Érték | Szerep |
-| --- | --- | --- |
-| `--brand` | `#2A4BD7` | királykék: linkek, gombok, kiemelés |
-| `--sun` | `#F5B301` | napraforgó akcentus |
-| `--bg` | `#FCFBF7` | törtfehér háttér |
-| `--ink` | `#10162B` | főszöveg |
+| Változó | Szerep |
+| --- | --- |
+| `--brand` | sötét gombok és linkek |
+| `--coral`, `--sky`, `--mint`, `--sun`, `--lilac` | grafikai akcentusok |
+| `*-soft` | pasztell kártyahátterek |
+| `--bg` | fehér oldalháttér |
+| `--ink` | sötét főszöveg |
 
-⚠️ A `--sun` **csak háttérként vagy grafikaként** használható, szövegszínként nem —
-fehéren nem éri el a WCAG AA kontrasztot.
+A pasztell akcentusokat ne használd apró szöveg színeként fehér háttéren.
+A betűk rendszer-fontstackből töltődnek; nincs külső betűtípus-kérés.
 
 **Szövegek** — közvetlenül az `index.html`-ben. A szekciók sorrendben:
 hero → *Miben segítünk* → *Hogyan dolgozunk* → *Referenciamunkák* → *Beszéljünk róla* → lábléc.

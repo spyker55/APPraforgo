@@ -1,23 +1,35 @@
 /* ==========================================================================
    APPraforgó — landing page
-   Paletta: királykék + napraforgó arany, világos törtfehér alapon.
+   Paletta: biri.chat ihlette pasztellek, fehér alapon, sötét gombokkal.
    ========================================================================== */
 
 :root {
   color-scheme: light;
 
-  /* Színek */
-  --bg:          #FCFBF7;
-  --surface:     #FFFFFF;
-  --ink:         #10162B;
-  --muted:       #5A6180;
-  --brand:       #2A4BD7;
-  --brand-dark:  #1E37A6;
-  --brand-soft:  #EEF1FE;
-  --sun:         #F5B301;
-  --sun-soft:    #FFF3CF;
-  --sun-ink:     #7A5B00;  /* sárga családú szöveg világos háttéren, AA-kontraszttal */
-  --line:        #E6E4DC;
+  /* A biri.chat világos palettája; a mély árnyalatok szöveghez valók. */
+  --bg:          #FFFFFF;
+  --surface:     oklch(97.4% .004 265);
+  --ink:         oklch(20% .015 265);
+  --muted:       oklch(44% .015 265);
+  --brand:       oklch(22% .016 265);
+  --brand-dark:  oklch(32% .016 265);
+  --brand-soft:  oklch(96% .026 240);
+  --coral:       oklch(76% .13 38);
+  --coral-soft:  oklch(96.2% .028 38);
+  --coral-deep:  oklch(54% .17 36);
+  --sky:         oklch(74% .13 245);
+  --sky-soft:    oklch(96% .026 240);
+  --sky-deep:    oklch(50% .17 255);
+  --mint:        oklch(85% .1 162);
+  --mint-soft:   oklch(96.5% .03 162);
+  --mint-deep:   oklch(48% .1 162);
+  --sun:         oklch(90% .13 98);
+  --sun-soft:    oklch(97.5% .05 100);
+  --sun-ink:     oklch(50% .1 88);
+  --lilac:       oklch(80% .1 300);
+  --lilac-soft:  oklch(96.6% .024 300);
+  --lilac-deep:  oklch(50% .17 300);
+  --line:        oklch(92.5% .005 265);
 
   /* Tipográfia */
   --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto,
@@ -25,8 +37,8 @@
 
   /* Ritmus */
   --container: 1120px;
-  --radius: 16px;
-  --radius-sm: 10px;
+  --radius: 32px;
+  --radius-sm: 20px;
   --shadow: 0 1px 2px rgba(16, 22, 43, .05), 0 8px 24px rgba(16, 22, 43, .06);
   --shadow-lift: 0 2px 4px rgba(16, 22, 43, .06), 0 16px 40px rgba(16, 22, 43, .10);
 }
@@ -87,7 +99,7 @@ a:hover { color: var(--brand-dark); }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(252, 251, 247, .88);
+  background: rgba(255, 255, 255, .9);
   backdrop-filter: saturate(180%) blur(12px);
   border-bottom: 1px solid var(--line);
 }
@@ -226,9 +238,9 @@ a:hover { color: var(--brand-dark); }
 .btn-primary {
   background: var(--brand);
   color: #fff;
-  box-shadow: 0 6px 18px rgba(42, 75, 215, .28);
+  box-shadow: 0 6px 18px rgba(24, 28, 38, .12);
 }
-.btn-primary:hover { background: var(--brand-dark); color: #fff; box-shadow: 0 10px 26px rgba(42, 75, 215, .34); }
+.btn-primary:hover { background: var(--brand-dark); color: #fff; box-shadow: 0 10px 26px rgba(24, 28, 38, .18); }
 
 .btn-ghost {
   background: transparent;
@@ -240,9 +252,9 @@ a:hover { color: var(--brand-dark); }
 .btn-sun {
   background: var(--sun);
   color: var(--ink);
-  box-shadow: 0 6px 18px rgba(245, 179, 1, .32);
+  box-shadow: 0 6px 18px rgba(24, 28, 38, .08);
 }
-.btn-sun:hover { background: #ffc21f; color: var(--ink); }
+.btn-sun:hover { background: var(--sun-soft); color: var(--ink); }
 
 .btn-sm { padding: .5rem 1rem; font-size: .9rem; }
 
@@ -263,7 +275,7 @@ a:hover { color: var(--brand-dark); }
   letter-spacing: .09em;
   text-transform: uppercase;
   color: var(--brand-dark);
-  background: var(--brand-soft);
+  background: var(--mint-soft);
   border-radius: 999px;
   padding: .35rem .85rem;
   margin-bottom: 1.1rem;
@@ -282,8 +294,8 @@ a:hover { color: var(--brand-dark); }
   overflow: hidden;
   padding-block: clamp(3rem, 7vw, 5rem) clamp(2.75rem, 5vw, 4rem);
   background:
-    radial-gradient(60rem 32rem at 78% -12%, var(--sun-soft) 0%, transparent 62%),
-    radial-gradient(52rem 30rem at 8% 0%, var(--brand-soft) 0%, transparent 60%);
+    radial-gradient(34rem 28rem at 88% 42%, var(--coral-soft) 0%, transparent 72%),
+    radial-gradient(30rem 24rem at 68% 72%, var(--mint-soft) 0%, transparent 70%);
 }
 
 .hero-grid {
@@ -305,17 +317,17 @@ a:hover { color: var(--brand-dark); }
 }
 .hero-visual svg {
   width: min(24rem, 100%);
-  filter: drop-shadow(0 24px 50px rgba(245, 179, 1, .35));
+  filter: drop-shadow(0 20px 32px rgba(24, 28, 38, .08));
   animation: napraforgo 120s linear infinite;
 }
 @keyframes napraforgo { to { transform: rotate(360deg); } }
 
 .hero h1 {
   font-size: clamp(2.4rem, 1.5rem + 4.2vw, 4rem);
-  letter-spacing: -.035em;
+  letter-spacing: -.05em;
 }
 .hero h1 .accent {
-  background: linear-gradient(transparent 62%, var(--sun-soft) 62%);
+  background: linear-gradient(transparent 62%, var(--coral-soft) 62%);
   padding-inline: .1em;
 }
 
@@ -373,7 +385,7 @@ a:hover { color: var(--brand-dark); }
 .grid-2 { grid-template-columns: repeat(auto-fit, minmax(min(19rem, 100%), 1fr)); }
 
 .card {
-  background: var(--surface);
+  background: var(--card-bg, var(--bg));
   border: 1px solid var(--line);
   border-radius: var(--radius);
   padding: clamp(1.35rem, 3vw, 1.85rem);
@@ -438,7 +450,7 @@ a:hover { color: var(--brand-dark); }
 .work:hover {
   transform: translateY(-3px);
   box-shadow: var(--shadow-lift);
-  border-color: #CFD6F7;
+  border-color: var(--sky);
   color: inherit;
 }
 
@@ -474,8 +486,8 @@ a:hover { color: var(--brand-dark); }
   width: .32rem;
   height: .32rem;
   border-radius: 50%;
-  background: #D8D5CB;
-  box-shadow: .52rem 0 0 #D8D5CB, 1.04rem 0 0 #D8D5CB;
+  background: var(--coral);
+  box-shadow: .52rem 0 0 var(--sun), 1.04rem 0 0 var(--mint);
 }
 .work-shot img {
   display: block;
@@ -526,17 +538,15 @@ a:hover { color: var(--brand-dark); }
 /* --- Kapcsolat ---------------------------------------------------------- */
 
 .contact {
-  background: var(--brand);
-  color: #fff;
-  border-radius: clamp(18px, 3vw, 28px);
+  background: var(--lilac-soft);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
   padding: clamp(2rem, 5vw, 3.5rem);
   text-align: center;
-  background-image:
-    radial-gradient(30rem 20rem at 85% 110%, rgba(245, 179, 1, .28) 0%, transparent 60%),
-    radial-gradient(26rem 18rem at 10% -20%, rgba(255, 255, 255, .16) 0%, transparent 60%);
 }
 .contact h2 { font-size: clamp(1.7rem, 1.2rem + 2vw, 2.5rem); }
-.contact p { color: rgba(255, 255, 255, .84); margin: .9rem auto 0; max-width: 44ch; }
+.contact p { color: var(--muted); margin: .9rem auto 0; max-width: 44ch; }
 
 .mail {
   display: inline-block;
@@ -544,14 +554,14 @@ a:hover { color: var(--brand-dark); }
   font-size: clamp(1.2rem, .9rem + 1.8vw, 2rem);
   font-weight: 700;
   letter-spacing: -.02em;
-  color: #fff;
+  color: var(--ink);
   text-decoration: none;
-  border-bottom: 3px solid var(--sun);
+  border-bottom: 3px solid var(--lilac);
   padding-bottom: .15rem;
   word-break: break-word;
 }
-.mail:hover { color: var(--sun); }
-.contact :focus-visible { outline-color: #fff; }
+.mail:hover { color: var(--lilac-deep); }
+.contact :focus-visible { outline-color: var(--lilac-deep); }
 
 /* --- Lábléc ------------------------------------------------------------- */
 
@@ -582,6 +592,27 @@ a:hover { color: var(--brand-dark); }
   border-top: 1px solid var(--line);
   font-size: .875rem;
 }
+
+/* --- Pasztell szekciók, mindkét nyelv közös komponensei --------------- */
+
+.grid-3 > :nth-child(3n + 1) { --card-bg: var(--coral-soft); --card-accent: var(--coral); }
+.grid-3 > :nth-child(3n + 2) { --card-bg: var(--sky-soft); --card-accent: var(--sky); }
+.grid-3 > :nth-child(3n + 3) { --card-bg: var(--mint-soft); --card-accent: var(--mint); }
+.card-icon { background: var(--card-accent, var(--sky)); color: var(--ink); border-radius: 16px; }
+.work:nth-child(3n + 1) { --card-bg: var(--sky-soft); }
+.work:nth-child(3n + 2) { --card-bg: var(--mint-soft); }
+.work:nth-child(3n + 3) { --card-bg: var(--sun-soft); }
+.tags li { background: var(--bg); }
+.steps > :nth-child(4n + 1) { --step-bg: var(--coral-soft); --step-accent: var(--coral); }
+.steps > :nth-child(4n + 2) { --step-bg: var(--sky-soft); --step-accent: var(--sky); }
+.steps > :nth-child(4n + 3) { --step-bg: var(--mint-soft); --step-accent: var(--mint); }
+.steps > :nth-child(4n + 4) { --step-bg: var(--lilac-soft); --step-accent: var(--lilac); }
+.step { background: var(--step-bg); border: 1px solid var(--line); border-radius: 24px; padding: 1.5rem; }
+.step::before { color: var(--ink); background: var(--step-accent); border-radius: 999px; width: 2.5rem; height: 2.5rem; display: grid; place-items: center; margin-bottom: 1rem; }
+.brand svg [fill="#F5B301"], .hero-visual svg [fill="#F5B301"] { fill: var(--coral); }
+.brand svg [fill="#FFC94A"], .hero-visual svg [fill="#FFC94A"] { fill: var(--sun); }
+.brand svg [fill="#2A4BD7"], .hero-visual svg [fill="#2A4BD7"] { fill: var(--ink); }
+.brand svg [fill="#FCFBF7"], .hero-visual svg [fill="#FCFBF7"] { fill: var(--bg); }
 
 /* --- Beúszó elemek ------------------------------------------------------ */
 
