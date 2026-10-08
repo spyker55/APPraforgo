@@ -94,15 +94,17 @@ Két fájl nevet is váltott, mert a nevük olyan színt mondott, ami már nincs
 | --- | --- | --- |
 | `logo-ikonos-kek.svg` | `logo-ikonos-terrakotta.svg` | kék ikonok → a kiemelőszín, 34% helyett 42%-on |
 | `logo-kek.svg` | `logo-forditott.svg` | kék szirmok → terrakotta és korall, arany tányérral |
+| `logo-jelenlegi.svg` | `logo-ikonok-nelkul.svg` | már nem a jelenlegi: ez az ikonok előtti rajz |
 
 ⚠️ A `logo-vonalas.svg` gyűrűje a tányér új színét kapta, ami **sötét háttéren
 eltűnik** — vonalas rajz, nincs mögötte tömör folt. Világos lapra készült, és
 semmi nem hivatkozik rá; ha valaha sötét alapon kellene, a gyűrű kapjon aranyat.
 
-⚠️ A `logo-preview.html` a `logo-jelenlegi.svg`-t jelöli „jelenlegi"-ként, de a
-ténylegesen kiszállított `assets/logo.svg` a `logo-ikonos-feher.svg`-vel azonos
-(szóközöktől eltekintve bájtra). A lap még az ikonok bevezetése előtti
-állapotot tükrözi. Ez nem a paletta dolga, ezért nem nyúltunk hozzá.
+A `logo-preview.html` **„jelenlegi" jelölése** a `logo-ikonos-feher.svg`-n van,
+mert az a ténylegesen kiszállított rajz: `assets/logo.svg`, `favicon.svg` és
+`design/logo-variants/logo-ikonos-feher.svg` azonos MD5-ű, bájtra egy és
+ugyanaz a fájl. Ha a logó valaha változik, mind a hármat együtt kell cserélni —
+és a jelölést arra a kártyára vinni, amelyik az új rajzot mutatja.
 
 **Szövegek** — közvetlenül az `index.html`-ben. A szekciók sorrendben:
 hero → *Miben segítünk* → *Hogyan dolgozunk* → *Referenciamunkák* → *Beszéljünk róla* → lábléc.

@@ -45,7 +45,7 @@
 <body>
 <div class="wrap">
   <h1>APPraforgó — logóváltozatok</h1>
-  <p class="sub">A mostani napraforgó, halvány app-ikonokkal a szirmokon. A rajz és a geometria változatlan — csak nyolc ikon került a felső sziromgyűrűre.
+  <p class="sub">A mostani napraforgó, halvány app-ikonokkal a szirmokon. A rajz és a geometria minden változatban azonos — csak az ikonok színe és fedettsége tér el. Az elsőként álló, <em>jelenlegi</em> jelölésű kártya az, ami most élesben megy.
      A nagy példány a webhelyével azonos ütemben forog (egy fordulat 120 másodperc) —
      szándékosan alig észrevehető. Alul a valós használati méretek: fejléc (30 px) és
      böngészőfül (16 px).</p>
@@ -53,9 +53,13 @@
 </div>
 <script>
   const V = [
-    ['logo-jelenlegi.svg','Jelenlegi','A mostani logó, ikonok nélkül — összehasonlítási alap.', true],
+    // A „jelenlegi" jelölés arra a fájlra tartozik, ami tényleg ki van
+    // szállítva: a logo-ikonos-feher.svg bájtra azonos az assets/logo.svg-vel
+    // és a favicon.svg-vel (azonos MD5). Korábban az ikonok nélküli rajz
+    // kapta a jelölést — az a lap még az ikonok bevezetése előtt készült.
+    ['logo-ikonos-feher.svg','Fehér ikonok','Fehér 62%-on. Ez megy élesben: az assets/logo.svg és a favicon.svg is pontosan ez a fájl. A leglágyabb, dombornyomott érzet; nagy méretben elegáns, kicsiben szinte eltűnik.', true],
+    ['logo-ikonok-nelkul.svg','Ikonok nélkül','A csupasz napraforgó, ikonok nélkül — az ikonok bevezetése előtti rajz, összehasonlítási alap.'],
     ['logo-ikonos-borostyan.svg','Borostyán ikonok','Meleg borostyán (#7A5E06) 42%-on. A legolvashatóbb, és nem hoz be új színt — vésett hatás.'],
-    ['logo-ikonos-feher.svg','Fehér ikonok','Fehér 62%-on. A leglágyabb, dombornyomott érzet; nagy méretben elegáns, kicsiben szinte eltűnik.'],
     ['logo-ikonos-terrakotta.svg','Terrakotta ikonok','Az oldal kiemelőszíne (#BC3D17) 42%-on. A korábbi kék változat utódja: a kék kiszürkült az aranyon, ez narancsba olvad bele. A középpontot már nem visszhangozza — az sötét lett.'],
     ['logo-ikonos-feher-radialis.svg','Fehér, sziromirányban','Ugyanaz, de az ikonok követik a szirom szögét. Dekoratívabb, viszont az ikonok nehezebben olvashatók.'],
   ];
