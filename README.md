@@ -81,9 +81,13 @@ Két dolog nem a referenciaoldalról jön:
   valódi napraforgó színe is. Visszaállítani egy érték átírása mindkét lapon,
   az `assets/logo.svg`-ben és a `favicon.svg`-ben.
 
-Amihez nem nyúltunk: az `assets/og*.png` közösségi előnézeti képek és a
-`design/logo-variants/` mappa még a régi kék-arany palettát viszik. Az előbbit
-akkor érdemes újragenerálni, ha a megosztott link előnézete számít.
+A megosztási kártyák (`assets/og*.png`) követik a palettát, de **nem
+automatikusan**: önálló lapként renderelődnek, nem látják az `assets/style.css`-t,
+így a színek a `design/og-image.js` `cardHtml` függvényében meg vannak ismételve.
+Palettaváltáskor ott is át kell vezetni, és újrafuttatni a generátort.
+
+Amihez nem nyúltunk: a `design/logo-variants/` mappa még a régi kék-arany
+palettát viszi. Belső összehasonlító anyag, nem kerül ki a lapra.
 
 **Szövegek** — közvetlenül az `index.html`-ben. A szekciók sorrendben:
 hero → *Miben segítünk* → *Hogyan dolgozunk* → *Referenciamunkák* → *Beszéljünk róla* → lábléc.
@@ -214,6 +218,11 @@ node design/og-image.js          # → assets/og.png + assets/og-en.png
 A szövegeket a script tetején, a `CARDS` tömbben találod. A logót az
 `assets/logo.svg`-ből emeli ki, tehát logóváltáskor magától követi, és elhasal,
 ha a szöveg kilógna a vászonból — az angol tipikusan hosszabb, ezért nem árt.
+
+A Chromiumot `--disable-lcd-text` kapcsolóval indítja: alpixeles betűsimítás
+nélkül, szürkeárnyalatosan. A megosztó felületek átméretezik a kártyát, és az
+alpixeles betűélek színes szegélyként maradnának meg a képben. (A CSS-ben erre
+való `-webkit-font-smoothing` macOS-only, Linuxon nem hat — ezért a kapcsoló.)
 
 ⚠️ `og:image` **nélkül** a Facebook a lapon talált legnagyobb képet választja —
 esetünkben az egyik referencia-screenshotot. Ezért kell explicit megadni.

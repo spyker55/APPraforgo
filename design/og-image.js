@@ -48,12 +48,20 @@ const logo = fs
 
 const cardHtml = (card) => `
 <style>
+  /* A színek az assets/style.css :root blokkját követik. Ha ott változik a
+     paletta, itt is át kell vezetni — a kártya nem hivatkozhat a CSS-re,
+     mert önálló lapként renderelődik. */
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     width: ${WIDTH}px; height: ${HEIGHT}px;
-    background: #FCFBF7;
+    /* Ugyanaz a három pasztell folt, mint az oldal nyitóképén. */
+    background:
+      radial-gradient(760px 420px at 88% -14%, #FEF8D2 0%, transparent 64%),
+      radial-gradient(680px 420px at 4% -6%, #FFECE5 0%, transparent 62%),
+      radial-gradient(820px 360px at 46% 124%, #F5F0FF 0%, transparent 66%),
+      #FEFFFF;
     font-family: 'Liberation Sans', 'DejaVu Sans', Arial, sans-serif;
-    color: #10162B;
+    color: #12161C;
     display: flex; align-items: center; gap: 72px;
     padding: 0 88px;
     overflow: hidden;
@@ -62,16 +70,18 @@ const cardHtml = (card) => `
   .text { flex: 1; }
   h1 { font-size: 92px; font-weight: 700; letter-spacing: -.02em; line-height: 1; }
   .slogan {
-    font-size: 46px; font-weight: 600; color: #2A4BD7;
+    font-size: 46px; font-weight: 600; color: #BC3D17;
     margin-top: 18px; letter-spacing: -.01em;
   }
-  .rule { width: 96px; height: 5px; background: #F5B301; border-radius: 3px; margin: 32px 0 28px; }
-  .desc { font-size: 31px; line-height: 1.4; color: #5A6180; }
+  .rule { width: 96px; height: 5px; background: #F79273; border-radius: 3px; margin: 32px 0 28px; }
+  .desc { font-size: 31px; line-height: 1.4; color: #4E525B; }
   .domain {
     position: absolute; right: 88px; bottom: 56px;
-    font-size: 27px; font-weight: 600; color: #2A4BD7;
+    font-size: 27px; font-weight: 600; color: #BC3D17;
   }
-  .bar { position: absolute; left: 0; right: 0; bottom: 0; height: 10px; background: #2A4BD7; }
+  /* A sötét sáv nem dísz: a kártya majdnem fehér, és a hírfolyamok világos
+     háttere mellett e nélkül elfolyna az alsó széle. */
+  .bar { position: absolute; left: 0; right: 0; bottom: 0; height: 10px; background: #161A22; }
 </style>
 
 <div class="mark">${logo}</div>
@@ -86,7 +96,14 @@ const cardHtml = (card) => `
 `;
 
 (async () => {
-  const browser = await chromium.launch({ executablePath: CHROME });
+  // --disable-lcd-text: alpixeles betűsimítás nélkül, szürkeárnyalatosan.
+  // A kártyát a megosztó felületek átméretezik, és az alpixeles betűélek
+  // színes szegélyként maradnának meg a képben. (A CSS-ben erre való
+  // -webkit-font-smoothing macOS-only, Linuxon nem hat — ezért itt.)
+  const browser = await chromium.launch({
+    executablePath: CHROME,
+    args: ['--disable-lcd-text'],
+  });
   const page = await browser.newPage({
     viewport: { width: WIDTH, height: HEIGHT },
     deviceScaleFactor: 1,
