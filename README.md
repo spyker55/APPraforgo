@@ -169,6 +169,31 @@ EOF
 átírni. Nem kötelező: a `.work-shot` fix aránya miatt betöltéskor akkor sem ugrik
 a layout, ha elavult — de a helyes érték pontosabb infó a böngészőnek.
 
+### Dizájn irányok (`design/paletta-otletek.html`)
+
+Négy világos, pasztell paletta-javaslat egy lapon: **Konfetti** (indigó + öt
+pasztell mező), **Menta & korall**, **Levendula & citrom** (citromsárga
+szövegkiemelő a főcímben) és **Gyümölcsfagylalt** (ciklámen + türkiz +
+mandarin). Mindegyik alatt a tényleges oldal szerkezete fut le kicsiben —
+fejléc, hero, kártyák, lépéssáv, kapcsolat —, nem csak színminta-csík.
+
+A lap **önálló és nincs hatása az éles oldalra**: saját `:root`-ja nincs, a
+palettákat `[data-dir="…"]` hatókörök hordozzák. Ha valamelyik irányt
+választjuk, a tokenjei onnan kerülnek át az `assets/style.css` `:root`-jába.
+
+Minden szöveg–háttér párosítás WCAG AA-ra ellenőrizve, a számok az irányok
+alatt ott vannak a lapon. Két dolog, ami a mérésnél csapda volt, és a jövőben is
+az lesz:
+
+- **Pasztellből nem lesz 3:1.** A halvány pöttyök és vonalak `1,3–2,5:1`
+  környékén vannak, tehát dísznek jók, jelentést nem hordozhatnak. Ahol a vonal
+  tagol (lépéssáv), ott a sötétebb testvére megy: korall `#E85C45` (`3,4:1`),
+  mandarin `#EC6F1C` (`3,0:1`).
+- **`currentColor` mintához öröklődik.** A D irány pöttymintája eredetileg
+  `currentColor`-ral készült, amihez a `color`-t 7%-ra kellett venni — és azt a
+  fejléc felirata örökölte, úgyhogy a „raforgó" gyakorlatilag eltűnt. A pötty
+  színe ezért kiírt `rgba`, nem `currentColor`.
+
 ## Publikálás
 
 Nincs build lépés, a repó tartalma **változtatás nélkül feltölthető**:
