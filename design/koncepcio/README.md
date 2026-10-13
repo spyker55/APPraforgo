@@ -6,7 +6,9 @@ Az APPraforgó oldalának filmszerű újragondolása. **Koncepció, nem az éles
 oldalt nem érinti.
 
 Megnyitás: a repó gyökeréből `python3 -m http.server 8000`, aztán
-`http://localhost:8000/design/koncepcio/`. A képek a `../../assets/` mappából jönnek,
+`http://localhost:8000/design/koncepcio/` (magyar) vagy
+`http://localhost:8000/design/koncepcio/en/` (angol). A fejlécben lévő
+EN / HU gomb a két koncepció között vált, nem az éles oldalra visz. A képek a `../../assets/` mappából jönnek,
 ezért a gyökérből kell kiszolgálni, nem ebből a mappából.
 
 ---
@@ -247,11 +249,41 @@ Ezen kívül a csapók („Hajnal", „A nap pályája", „Termés", „Kocka 0
 görgetésjelző („Görgessen — felkel a nap") és a lábléc utolsó sora
 („20:46 — a nap lement.").
 
-## 13 · Ha élesbe menne
+## 13 · Az angol változat (`en/`)
+
+Ugyanaz a lap, ugyanazzal a CSS-sel és JS-sel — nincs második példány, amit
+külön kellene karbantartani. A stílus és a motor nyelvfüggetlen: a
+jelenetneveket (*Dawn, Morning, Noon, Golden hour, Dusk*), amiket a napóra
+kiír, a HTML adja a `data-scene` attribútumban.
+
+A szöveg **az éles angol oldalé**, nem újrafordítás. A koncepció saját sorai
+(prológus, csapók, görgetésjelző, lábléc) angolul íródtak, nem tükörfordításban:
+
+> A young sunflower follows the light all day.
+> Its seeds sit by a single rule: each one turns 137.5° from the one before.
+> One clear direction and one precise rule. *That’s how we build, too.*
+
+Ami az éles angol oldalt követve **szándékosan más**, mint a magyaron:
+
+- A Leltárium angolul a **leltarium.com**, saját angol képernyőképpel
+  (`assets/leltarium-en.png`).
+- A munkáknál ott a megjegyzés: a ZsebGarázs és a SzámlaFolyó csak magyarul
+  érhető el — és a két link `hreflang="hu"`-t kap, a képernyőolvasónak pedig
+  „(opens in a new tab, in Hungarian)" szól.
+- A láblécben az **uniós ÁFA-szám** (HU92220155) áll, nem a hazai adószám, és
+  „sole trader" az „e.v." helyett.
+- Tizedespont: `137.5°`, `≈ 137.508°`. Tipográfiai aposztróf: *Let’s talk*.
+
+Ugyanúgy ellenőrizve, mint a magyar: pixel-kontraszt három méreten (619
+szövegdoboz, 0 bukó), korong–szöveg távolság hét méreten × három
+egérhelyzetben (legalább 31 px), teljes glif-lefedettség, nincs túlcsordulás,
+csökkentett mozgással és JS nélkül sincs rejtve maradt szöveg, és a nyelvváltó
+oda-vissza a megfelelő lapra visz.
+
+## 14 · Ha élesbe menne
 
 Ami ehhez még kellene, és amit ez a koncepció szándékosan nem csinált meg:
 
-- **Angol változat** (`/en/`), ugyanígy.
 - **Új megosztási kártya** (`og.png`) ebben a nyelvben — a `design/og-image.js`
   átírható rá.
 - **LCP:** a főcím maszkos felúszása késlelteti a Google által mért
@@ -264,7 +296,7 @@ Ami ehhez még kellene, és amit ez a koncepció szándékosan nem csinált meg:
 - Az éles README „Nincs külső betűtípus — rendszer-fontstack" pontját át
   kellene írni: külső kérés továbbra sincs, de saját betű lesz.
 
-## Súly
+## Súly (magyar lap; az angol ugyanennyi, ugyanazokkal a fájlokkal)
 
 | | Nyers | gzip |
 |---|---|---|

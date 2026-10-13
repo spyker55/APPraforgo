@@ -178,8 +178,11 @@ vágott, OFL-licencű) betűkkel, `noindex`-szel. A teljes irány — narratíva
 tipográfia, paletta, fény, mozgásnyelv, és hogy mi kellene az élesítéshez — a
 mappa saját `README.md`-jében van.
 
+Angol változata a `design/koncepcio/en/` alatt van, ugyanazzal a stílussal és
+motorral; a fejléc EN / HU gombja a két koncepció között vált.
+
 Megnyitás: `python3 -m http.server 8000` a repó gyökeréből, aztán
-`http://localhost:8000/design/koncepcio/`.
+`http://localhost:8000/design/koncepcio/` (vagy `…/koncepcio/en/`).
 
 ## Publikálás
 

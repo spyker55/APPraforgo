@@ -313,7 +313,7 @@ main, .foot, .hud { position: relative; z-index: 1; }
   max-width: 62rem;
 }
 .credits div { display: flex; gap: .9rem; align-items: baseline; }
-.credits dt { font: 400 .7rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+.credits dt { font: 400 .7rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); white-space: nowrap; }
 .credits dd { font-size: .98rem; }
 
 .scroll-cue {
@@ -323,9 +323,15 @@ main, .foot, .hud { position: relative; z-index: 1; }
 }
 .scroll-line { width: 3.5rem; height: 1px; background: var(--ink-soft); transform-origin: left; }
 @media (prefers-reduced-motion: no-preference) {
-  /* Háromszor jelez, aztán megáll: egy végtelen mozgás a lap szélén zaj. */
-  .scroll-line { animation: cue 2.8s var(--ease-turn) 1.2s 3 both; }
+  /* Kétszer jelez, aztán kihúzódik és úgy marad: egy végtelen mozgás a lap
+     szélén zaj. A „cue" kulcskockái 0 szélességgel végződnek, ezért a végén
+     egy külön „cue-in" húzza ki a vonalat — enélkül egy üres rés maradt
+     volna a felirat előtt. A sorrend számít: ha két animáció ugyanazt a
+     tulajdonságot írja, a listában a későbbi nyer, és a „cue" a várakozása
+     alatt is a sajátját mutatja (backwards). */
+  .scroll-line { animation: cue-in 1.4s var(--ease-light) 6.8s backwards, cue 2.8s var(--ease-turn) 1.2s 2 backwards; }
 }
+@keyframes cue-in { from { transform: scaleX(0); transform-origin: left; } to { transform: scaleX(1); transform-origin: left; } }
 @keyframes cue { 0% { transform: scaleX(0); } 45% { transform: scaleX(1); transform-origin: left; } 55% { transform: scaleX(1); transform-origin: right; } 100% { transform: scaleX(0); transform-origin: right; } }
 
 /* A virág. Jobbra, félig a képen kívül — mint a nap a képkivágás szélén.
@@ -516,9 +522,11 @@ html:not(.js) .arc-sun { display: none; }
 .still-text h3 { margin: .9rem 0 .4rem; font: 330 clamp(2.2rem, 1.4rem + 2.6vw, 3.8rem)/.95 var(--f-display); letter-spacing: -.03em; }
 .still-tag { font: italic 330 clamp(1.15rem, 1rem + .5vw, 1.4rem)/1.3 var(--f-display); color: var(--ochre); }
 .still-body { margin-top: 1rem; color: var(--ink-soft); font-size: 1rem; line-height: 1.55; }
-.still-credits { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin-top: 1.1rem; }
+/* Elválasztó nélkül: a „/" tördeléskor sor elejére került („/ Előfizetés"),
+   és elválasztó soha nem nyithat sort. A széles köz és a nagybetű így is
+   listaként olvastatja. */
+.still-credits { display: flex; flex-wrap: wrap; gap: .45rem 1.6rem; margin-top: 1.1rem; }
 .still-credits li { font: 400 .68rem/1.4 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink-soft); }
-.still-credits li + li::before { content: "/"; margin-right: 1.1rem; }
 .still-go {
   display: inline-flex; align-items: center; gap: .55rem; margin-top: 1.6rem; padding-bottom: .35rem;
   font: 400 .76rem/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase;
@@ -613,6 +621,9 @@ html:not(.js) .arc-sun { display: none; }
      olvadna össze, ami nem tud törni, és egy sorban futna rá a szirmokra. */
   .slate--hero .slate-sep { display: none; }
   .slate--hero .slate-what { flex-basis: 100%; }
+  /* A stáblista címkéje keskenyen a szöveg fölé kerül: egymás mellett a
+     hosszabb címke („Track record") kettétört, és összenyomta a szöveget. */
+  .credits div { flex-direction: column; gap: .35rem; }
   .flower-stage { width: 128vw; right: -52vw; top: -32vw; translate: none; }
   .hero-foot { grid-template-columns: 1fr; }
   .scroll-cue { display: none; }
