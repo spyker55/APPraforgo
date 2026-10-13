@@ -607,9 +607,12 @@ html:not(.js) .arc-sun { display: none; }
   /* Telefonon a virág felül ül, levágva; a szöveg a korong alatt indul.
      A számok mérésből: a korong alja 390 px-en kb. 66vw-nél van. */
   .hero { padding-top: 74vw; }
-  /* Keskenyen a csapó két sorba törik; az elválasztó pont ilyenkor a sor
-     végén lógna, ezért eltűnik, és a törés a két rész között történik. */
+  /* Keskenyen a csapó két sorba törik: „01 Hajnal", alatta a műfaj. Az
+     elválasztó pont ilyenkor a sor végén lógna, ezért eltűnik. A második rész
+     saját elem — enélkül a „Hajnal" és a műfaj egyetlen névtelen flex-elemmé
+     olvadna össze, ami nem tud törni, és egy sorban futna rá a szirmokra. */
   .slate--hero .slate-sep { display: none; }
+  .slate--hero .slate-what { flex-basis: 100%; }
   .flower-stage { width: 128vw; right: -52vw; top: -32vw; translate: none; }
   .hero-foot { grid-template-columns: 1fr; }
   .scroll-cue { display: none; }
