@@ -169,6 +169,18 @@ EOF
 átírni. Nem kötelező: a `.work-shot` fix aránya miatt betöltéskor akkor sem ugrik
 a layout, ha elavult — de a helyes érték pontosabb infó a böngészőnek.
 
+### Koncepció: „A fény felé" (`design/koncepcio/`)
+
+Filmszerű újragondolás, **nem az éles oldal**: a görgetés egy nap a
+napkeltétől az alkonyig, a napraforgó pedig a valódi aranyszög-képlettel nő
+ki, és a nap felé fordul. Önálló lap, saját stílussal és saját (magyar ábécére
+vágott, OFL-licencű) betűkkel, `noindex`-szel. A teljes irány — narratíva,
+tipográfia, paletta, fény, mozgásnyelv, és hogy mi kellene az élesítéshez — a
+mappa saját `README.md`-jében van.
+
+Megnyitás: `python3 -m http.server 8000` a repó gyökeréből, aztán
+`http://localhost:8000/design/koncepcio/`.
+
 ## Publikálás
 
 Nincs build lépés, a repó tartalma **változtatás nélkül feltölthető**:
