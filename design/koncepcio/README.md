@@ -280,25 +280,27 @@ egérhelyzetben (legalább 31 px), teljes glif-lefedettség, nincs túlcsordulá
 csökkentett mozgással és JS nélkül sincs rejtve maradt szöveg, és a nyelvváltó
 oda-vissza a megfelelő lapra visz.
 
-## 14 · Megosztási kártya (`og.jpg`, `og-en.jpg`)
+## 14 · Megosztási kártya (`assets/og.jpg`, `assets/og-en.jpg`)
 
-Amit a Facebook, a LinkedIn és az X mutat, ha valaki a koncepció linkjét
-megosztja. **Egy képben az egész nap:** balra hűvös hajnali papír, jobbra
+Amit a Facebook, a LinkedIn és az X mutat, ha valaki a linket megosztja —
+**az élő oldalé és a koncepcióé is ez**, egyetlen fájlpárban. **Egy képben az egész nap:** balra hűvös hajnali papír, jobbra
 mézszínű aranyóra, a jobb felső sarokban a nap, és a virág enyhén felé
 fordul (ezért ellipszis a korong). Alul monospace stáblista: `appraforgo.hu`
 és a szabály, `137,5°`.
 
 ```bash
-node design/koncepcio/og-image.js     # → design/koncepcio/og.jpg + og-en.jpg
+node design/og-image.js     # → assets/og.jpg + assets/og-en.jpg
 ```
 
 - **A kártya maga egy HTML-lap** (`og-kartya.html`, `?lang=en` az angolhoz),
   amit a script lefényképez. Ugyanazokat a betűket és **ugyanazt a
   `koncepcio.js`-t** tölti be, mint az oldal — a virág ugyanazzal a
   determinisztikus véletlennel rajzolódik, tehát bitre ugyanaz.
-- A script **hangosan elhasal**, ha bármelyik betű nem töltődött be, ha nem
-  pontosan 600 mag rajzolódott ki, vagy ha a lap nyelve nem stimmel. Hibás
-  kártyát nem ír ki csendben.
+- A script **hangosan elhasal**, és nem ír ki semmit, ha bármelyik betű nem
+  töltődött be, ha nem pontosan 600 mag rajzolódott ki, ha a lap nyelve nem
+  stimmel, ha szöveg lóg ki a vászonból, vagy ha bármelyik betű 24 px-nél
+  közelebb kerül a sötét koronghoz. (Próbára téve: szigorított határral
+  1-es kóddal leállt, és egyetlen fájlt sem írt ki.)
 - **JPEG, 92-es minőség, ~115 KB.** A Chromium PNG-je ennél a képnél 505 KB
   volt (a nagy, lágy gradiensek és a 600 mag rosszul tömöríthetők), és
   veszteségmentes újratömörítéssel is 435 KB. A 92-es JPEG pixeleinek 99,9%-a
@@ -309,19 +311,16 @@ node design/koncepcio/og-image.js     # → design/koncepcio/og.jpg + og-en.jpg
   ír JPEG-et.
 - Ellenőrizve: 14 szövegdoboz pixel-kontrasztja a kártyán, 0 bukó; a sötét
   korong a magyar címtől 140, az angoltól 202 px-re.
-- **Az éles oldal kártyáit nem írja felül.** Az `assets/og.png` és
-  `og-en.png` marad, amíg az éles oldal a régi palettával fut — egy aranyórás
-  kártya mást ígérne, mint amit a link mögött talál a látogató.
+- **Élesben van.** A régi kártyák (`assets/og.png`, `og-en.png`) és a régi
+  generátoruk törölve, a git-előzményben megvannak. Tudatos döntés, hogy a
+  kártya már az új irányt mutatja, miközben az élő oldal még a régi palettán
+  fut.
 
 ## 15 · Ha élesbe menne
 
 Ami ehhez még kellene, és amit ez a koncepció szándékosan nem csinált meg:
 
-- **A megosztási kártya kész** (lásd fent). Élesítéskor a két JPEG-et az
-  `assets/`-be kell másolni, és az éles `index.html` / `en/index.html`
-  `og:image`, `og:image:type` (`image/jpeg`) és `twitter:image` sorait
-  átírni. Utána érdemes a Facebook Sharing Debuggerben „Scrape Again"-t
-  nyomni, mert a régi képet napokig gyorsítótárazza.
+- ~~Megosztási kártya~~ — kész és élesben (lásd fent).
 - **LCP:** a főcím maszkos felúszása késlelteti a Google által mért
   „legnagyobb tartalmi kirajzolást". Élesben vagy rövidebbre venném, vagy az
   első sort animáció nélkül hagynám.

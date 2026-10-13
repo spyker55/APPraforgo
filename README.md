@@ -15,8 +15,8 @@ index.html          a magyar oldal (tartalom + inline SVG ikonok)
 en/index.html       ugyanaz angolul
 assets/style.css    a teljes stílus mindkét nyelvhez, CSS változókkal a tetején
 assets/logo.svg     napraforgó logó
-assets/og.png       megosztási kártya magyarul (1200×630), generált
-assets/og-en.png    ugyanaz angolul
+assets/og.jpg       megosztási kártya magyarul (1200×630, JPEG), generált
+assets/og-en.jpg    ugyanaz angolul
 assets/*.png        képernyőképek a referencia-kártyákhoz
 favicon.svg         böngészőfül ikon
 robots.txt          keresőknek: minden indexelhető, itt a sitemap
@@ -81,10 +81,11 @@ Két dolog nem a referenciaoldalról jön:
   valódi napraforgó színe is. Visszaállítani egy érték átírása mindkét lapon,
   az `assets/logo.svg`-ben és a `favicon.svg`-ben.
 
-A megosztási kártyák (`assets/og*.png`) követik a palettát, de **nem
-automatikusan**: önálló lapként renderelődnek, nem látják az `assets/style.css`-t,
-így a színek a `design/og-image.js` `cardHtml` függvényében meg vannak ismételve.
-Palettaváltáskor ott is át kell vezetni, és újrafuttatni a generátort.
+A megosztási kártyák (`assets/og.jpg`, `og-en.jpg`) **nem** ezt a palettát
+követik, hanem a koncepció („A fény felé", `design/koncepcio/`) stílusát. Ez
+tudatos döntés: a kártya már az új irányt mutatja, miközben az oldal még ezen a
+palettán fut. Ezért az `assets/style.css` színeinek változása a kártyát nem
+érinti, és fordítva: a kártya rajza a `design/koncepcio/og-kartya.html`-ben van.
 
 A `design/logo-variants/` mappa és a két összehasonlító lapja
 (`design/logo-preview.html`, `design/logo-nagy.html`) szintén követi a palettát.
@@ -238,34 +239,45 @@ maradjon a helyén**: ha törlöd, a property elveszti az igazolást.
 hivatkozásból attól még bekerülhet az indexbe, mert a crawler épp azt a fájlt nem
 tölti le, amiben a `noindex` áll.
 
-**Megosztási kártya** — az `assets/og.png` (magyar) és `assets/og-en.png` (angol)
-az a kép, amit a Facebook, a LinkedIn és a Twitter mutat a link mellett. Nem
-kézzel készültek, hanem generáltak:
+**Megosztási kártya** — az `assets/og.jpg` (magyar) és `assets/og-en.jpg` (angol)
+az a kép, amit a Facebook, a LinkedIn és az X mutat a link mellett — az élő
+oldalé és a koncepcióé is ugyanaz. Nem kézzel készültek, hanem generáltak:
 
 ```bash
 npm install playwright-core
-node design/og-image.js          # → assets/og.png + assets/og-en.png
+node design/og-image.js          # → assets/og.jpg + assets/og-en.jpg
 ```
 
-(A koncepció kártyáit külön script készíti — `node design/koncepcio/og-image.js`
-→ `design/koncepcio/og.jpg` + `og-en.jpg` —, és az éleseket nem írja felül.
-Részletek a `design/koncepcio/README.md`-ben.)
-
-A szövegeket a script tetején, a `CARDS` tömbben találod. A logót az
-`assets/logo.svg`-ből emeli ki, tehát logóváltáskor magától követi, és elhasal,
-ha a szöveg kilógna a vászonból — az angol tipikusan hosszabb, ezért nem árt.
+- **A kártya maga egy HTML-lap:** `design/koncepcio/og-kartya.html` (`?lang=en`
+  az angolhoz). A szövegei ott vannak, a lap alján. Ugyanazokat a betűket és
+  ugyanazt a `koncepcio.js`-t tölti be, mint a koncepció — a napraforgó
+  ugyanazzal a determinisztikus véletlennel rajzolódik, tehát bitre ugyanaz.
+  A logót az `assets/logo.svg`-ből veszi, logóváltáskor magától követi.
+- **A script hangosan elhasal**, és nem ír ki semmit, ha bármelyik betű nem
+  töltődött be, ha nem pontosan 600 mag rajzolódott ki, ha a lap nyelve nem
+  stimmel, ha szöveg lóg ki a vászonból (az angol tipikusan hosszabb), vagy ha
+  bármelyik betű 24 px-nél közelebb kerül a virág sötét korongjához.
+- **JPEG, 92-es minőség, ~115 KB.** PNG-ként 505 KB lenne (a nagy, lágy
+  gradiensek és a 600 mag rosszul tömöríthetők), veszteségmentes
+  újratömörítéssel is 435. A JPEG pixeleinek 99,9%-a legfeljebb 11/255-tel tér
+  el, és négyszeres nagyításban sincs színes szegély a dőlt okker betűkön.
 
 A Chromiumot `--disable-lcd-text` kapcsolóval indítja: alpixeles betűsimítás
 nélkül, szürkeárnyalatosan. A megosztó felületek átméretezik a kártyát, és az
 alpixeles betűélek színes szegélyként maradnának meg a képben. (A CSS-ben erre
 való `-webkit-font-smoothing` macOS-only, Linuxon nem hat — ezért a kapcsoló.)
+Az `--allow-file-access-from-files` azért kell, mert a kártyát `file://`-ról
+nyitja meg, és onnan a Chromium CORS miatt különben nem töltené be a betűket.
 
 ⚠️ `og:image` **nélkül** a Facebook a lapon talált legnagyobb képet választja —
 esetünkben az egyik referencia-screenshotot. Ezért kell explicit megadni.
 
 Kép cseréje után a Facebook a régi verziót cache-eli; a
 [Sharing Debugger](https://developers.facebook.com/tools/debug/) *Scrape Again*
-gombja frissíti.
+gombja frissíti — mindkét címre (`https://appraforgo.hu/` és `/en/`) külön.
+A legutóbbi cserénél a kép URL-je is változott (`og.png` → `og.jpg`), ami
+segít: új címet a crawlerek biztosan újra letöltenek. A már megosztott linkek
+előnézete viszont addig a régi marad, amíg valaki újra nem kaparja őket.
 
 ## Beúszó animáció
 

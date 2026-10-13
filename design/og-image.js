@@ -1,134 +1,110 @@
 /**
  * Újragenerálja a megosztási kártyákat:
- *   assets/og.png      a magyar oldalhoz (/)
- *   assets/og-en.png   az angol oldalhoz (/en/)
+ *   assets/og.jpg      a magyar oldalhoz (/) és a magyar koncepcióhoz
+ *   assets/og-en.jpg   az angol oldalhoz (/en/) és az angol koncepcióhoz
  *
- * Akkor kell lefuttatni, ha a név, a szlogen vagy a logó változik — a
- * Facebook, a LinkedIn és a Twitter ezt a képet mutatja a link mellett.
+ * Akkor kell lefuttatni, ha a név, a szlogen, a logó vagy a kártya rajza
+ * változik — a Facebook, a LinkedIn és az X ezt a képet mutatja a link mellett.
  *
  *   npm install playwright-core
  *   node design/og-image.js
+ *
+ * A kártya maga a design/koncepcio/og-kartya.html (a nyelvet a ?lang=en dönti
+ * el): ugyanazokat a betűket és ugyanazt a koncepcio.js-t tölti be, mint a
+ * koncepció oldala, így a virág bitre ugyanaz. A logót az assets/logo.svg-ből
+ * veszi, tehát logóváltáskor magától követi.
+ *
+ * Miért JPEG, és miért 92-es minőség: a Chromium PNG-je ennél a képnél (nagy,
+ * lágy gradiensek + 600 mag) 505 KB lett, veszteségmentes újratömörítéssel is
+ * 435. A 92-es JPEG ~115 KB, a pixelek 99,9%-a legfeljebb 11/255-tel tér el,
+ * és négyszeres nagyításban sincs színes szegély a dőlt okker betűkön. A
+ * megosztó felületek amúgy is JPEG-re tömörítik át. (85-ön 85 KB, de 15/255 az
+ * eltérés; 95-ön 143 KB, és szemre nem jobb.)
  *
  * A Chromium bináris helye a PW_CHROMIUM környezeti változóval írható felül;
  * alapból a Claude Code webes környezetének útvonalát használja.
  */
 
-const fs = require('fs');
 const path = require('path');
+const { pathToFileURL } = require('url');
 const { chromium } = require('playwright-core');
 
 const ROOT = path.join(__dirname, '..');
 const CHROME = process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium';
+const CARD = pathToFileURL(path.join(__dirname, 'koncepcio', 'og-kartya.html')).href;
 
 const WIDTH = 1200;
 const HEIGHT = 630;
+const QUALITY = 92;
 
-// Nyelvenként csak a szöveg változik, a kompozíció nem.
+// Nyelvenként csak a szöveg változik (az og-kartya.html-ben), a kompozíció nem.
 const CARDS = [
-  {
-    file: 'og.png',
-    slogan: 'Ötletből alkalmazások',
-    desc: 'Egyedi webes alkalmazások<br>kis- és középvállalatoknak',
-  },
-  {
-    file: 'og-en.png',
-    slogan: 'Ideas into applications',
-    desc: 'Custom web applications for<br>small and medium-sized businesses',
-  },
+  { lang: 'hu', file: 'og.jpg' },
+  { lang: 'en', file: 'og-en.jpg' },
 ];
 
-// A logót a kiszállított fájlból emeljük ki, hogy a kártya ne tudjon
-// elcsúszni tőle. Az id-ket egyedivé tesszük, mert a lapra beágyazva
-// ütköznének, ha valaha több logó kerülne ide.
-const logo = fs
-  .readFileSync(path.join(ROOT, 'assets', 'logo.svg'), 'utf8')
-  .replace(/<svg /, '<svg width="320" height="320" ')
-  .replace(/id="p"/, 'id="og-p"')
-  .replace(/href="#p"/g, 'href="#og-p"');
-
-const cardHtml = (card) => `
-<style>
-  /* A színek az assets/style.css :root blokkját követik. Ha ott változik a
-     paletta, itt is át kell vezetni — a kártya nem hivatkozhat a CSS-re,
-     mert önálló lapként renderelődik. */
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    width: ${WIDTH}px; height: ${HEIGHT}px;
-    /* Ugyanaz a három pasztell folt, mint az oldal nyitóképén. */
-    background:
-      radial-gradient(760px 420px at 88% -14%, #FEF8D2 0%, transparent 64%),
-      radial-gradient(680px 420px at 4% -6%, #FFECE5 0%, transparent 62%),
-      radial-gradient(820px 360px at 46% 124%, #F5F0FF 0%, transparent 66%),
-      #FEFFFF;
-    font-family: 'Liberation Sans', 'DejaVu Sans', Arial, sans-serif;
-    color: #12161C;
-    display: flex; align-items: center; gap: 72px;
-    padding: 0 88px;
-    overflow: hidden;
-  }
-  .mark { flex: 0 0 320px; line-height: 0; }
-  .text { flex: 1; }
-  h1 { font-size: 92px; font-weight: 700; letter-spacing: -.02em; line-height: 1; }
-  .slogan {
-    font-size: 46px; font-weight: 600; color: #BC3D17;
-    margin-top: 18px; letter-spacing: -.01em;
-  }
-  .rule { width: 96px; height: 5px; background: #F79273; border-radius: 3px; margin: 32px 0 28px; }
-  .desc { font-size: 31px; line-height: 1.4; color: #4E525B; }
-  .domain {
-    position: absolute; right: 88px; bottom: 56px;
-    font-size: 27px; font-weight: 600; color: #BC3D17;
-  }
-  /* A sötét sáv nem dísz: a kártya majdnem fehér, és a hírfolyamok világos
-     háttere mellett e nélkül elfolyna az alsó széle. */
-  .bar { position: absolute; left: 0; right: 0; bottom: 0; height: 10px; background: #161A22; }
-</style>
-
-<div class="mark">${logo}</div>
-<div class="text">
-  <h1>APPraforgó</h1>
-  <div class="slogan">${card.slogan}</div>
-  <div class="rule"></div>
-  <div class="desc">${card.desc}</div>
-</div>
-<div class="domain">appraforgo.hu</div>
-<div class="bar"></div>
-`;
+// Ami nélkül a kártya hibás lenne, és nem szabad csendben kiírni.
+const FONTS = ['Newsreader Display normal', 'Newsreader Display italic', 'Newsreader Text normal', 'Fragment Mono normal'];
+const SEEDS = 600;
+const DISC_GAP = 24;   // px: ennél közelebb egyetlen betű sem mehet a sötét koronghoz
 
 (async () => {
-  // --disable-lcd-text: alpixeles betűsimítás nélkül, szürkeárnyalatosan.
-  // A kártyát a megosztó felületek átméretezik, és az alpixeles betűélek
-  // színes szegélyként maradnának meg a képben. (A CSS-ben erre való
-  // -webkit-font-smoothing macOS-only, Linuxon nem hat — ezért itt.)
+  // --disable-lcd-text: szürkeárnyalatos betűsimítás. A kártyát a megosztó
+  // felületek átméretezik, és az alpixeles betűélek színes szegélyként
+  // maradnának meg. (A CSS-ben erre való -webkit-font-smoothing macOS-only,
+  // Linuxon nem hat — ezért itt.)
+  // --allow-file-access-from-files: a file:// lapról betöltött betűket a
+  // Chromium különben CORS miatt elutasítja.
   const browser = await chromium.launch({
     executablePath: CHROME,
-    args: ['--disable-lcd-text'],
+    args: ['--disable-lcd-text', '--allow-file-access-from-files'],
   });
-  const page = await browser.newPage({
-    viewport: { width: WIDTH, height: HEIGHT },
-    deviceScaleFactor: 1,
-  });
+  const page = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT }, deviceScaleFactor: 1 });
+  const errors = [];
+  page.on('pageerror', e => errors.push(e.message));
+  page.on('requestfailed', r => errors.push('nem töltődött be: ' + r.url()));
 
   for (const card of CARDS) {
+    await page.goto(CARD + '?lang=' + card.lang, { waitUntil: 'load' });
+    const s = await page.evaluate(async ([W, H]) => {
+      await document.fonts.ready;
+      // A sötét korong a 3D-forgatás miatt ellipszis: a befoglaló doboza a vetület.
+      const d = document.querySelector('.flower .disc').getBoundingClientRect();
+      const cx = d.left + d.width / 2, cy = d.top + d.height / 2, rx = d.width / 2, ry = d.height / 2;
+      let out = [], nearest = Infinity, nearestText = '';
+      const walker = document.createTreeWalker(document.querySelector('.copy'), NodeFilter.SHOW_TEXT);
+      let n;
+      while ((n = walker.nextNode())) {
+        if (!n.textContent.trim()) continue;
+        const rg = document.createRange(); rg.selectNodeContents(n);
+        for (const q of rg.getClientRects()) {
+          if (q.left < 0 || q.top < 0 || q.right > W || q.bottom > H) out.push(n.textContent.trim());
+          const nx = Math.max(q.left, Math.min(cx, q.right)), ny = Math.max(q.top, Math.min(cy, q.bottom));
+          const gap = (Math.hypot((nx - cx) / rx, (ny - cy) / ry) - 1) * Math.min(rx, ry);
+          if (gap < nearest) { nearest = gap; nearestText = n.textContent.trim(); }
+        }
+      }
+      return {
+        fonts: [...document.fonts].filter(f => f.status === 'loaded').map(f => f.family + ' ' + f.style),
+        seeds: document.querySelectorAll('.flower .seed').length,
+        lang: document.documentElement.lang,
+        out, nearest: Math.round(nearest), nearestText,
+      };
+    }, [WIDTH, HEIGHT]);
+
+    const fail = [];
+    const missing = FONTS.filter(f => !s.fonts.includes(f));
+    if (missing.length) fail.push('nem töltődött be: ' + missing.join(', '));
+    if (s.seeds !== SEEDS) fail.push(s.seeds + ' mag a ' + SEEDS + ' helyett');
+    if (s.lang !== card.lang) fail.push('a lap nyelve ' + s.lang);
+    if (s.out.length) fail.push('kilóg a vászonból: ' + s.out.join(' | '));
+    if (s.nearest < DISC_GAP) fail.push(`„${s.nearestText}" ${s.nearest} px-re van a sötét korongtól (legalább ${DISC_GAP} kell)`);
+    if (errors.length) fail.push(errors.join(' | '));
+    if (fail.length) throw new Error(card.file + ': ' + fail.join('; '));
+
     const out = path.join(ROOT, 'assets', card.file);
-    await page.setContent(cardHtml(card));
-    await page.waitForTimeout(300);
-
-    // A kártyának pontosan a vászon méretűnek kell lennie: ha a szöveg
-    // hosszabbra sikerül — és az angol tipikusan hosszabb —, itt derül ki,
-    // nem a Facebook megosztás-ellenőrzőjében.
-    const { w, h } = await page.evaluate(() => ({
-      w: document.documentElement.scrollWidth,
-      h: document.documentElement.scrollHeight,
-    }));
-    if (w > WIDTH || h > HEIGHT) {
-      await browser.close();
-      throw new Error(`${card.file}: a tartalom túllóg a vásznon: ${w}x${h}, elvárt ${WIDTH}x${HEIGHT}`);
-    }
-
-    await page.screenshot({ path: out });
-    console.log(`kész: ${out} (${fs.statSync(out).size} bájt)`);
+    await page.screenshot({ path: out, type: 'jpeg', quality: QUALITY });
+    console.log(`kész: assets/${card.file}  (legközelebbi szöveg a koronghoz: ${s.nearest} px)`);
   }
-
   await browser.close();
-})();
+})().catch(e => { console.error('HIBA: ' + e.message); process.exit(1); });
