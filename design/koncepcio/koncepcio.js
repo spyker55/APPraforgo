@@ -142,6 +142,10 @@
   }
 
   function updateDay(y) {
+    // Jelenetek nélküli lapon (pl. a megosztási kártyán, ami csak a virágot
+    // kéri ettől a fájltól) nincs napszak — enélkül minden képkockán
+    // TypeError lenne a scenes[0]-n.
+    if (!scenes.length) return;
     var p = clamp(y / maxScroll, 0, 1), i = 0;
     while (i < anchors.length - 2 && p > anchors[i + 1]) i++;
     var span = anchors[i + 1] - anchors[i] || 1;

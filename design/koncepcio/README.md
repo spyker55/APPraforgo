@@ -280,12 +280,48 @@ egérhelyzetben (legalább 31 px), teljes glif-lefedettség, nincs túlcsordulá
 csökkentett mozgással és JS nélkül sincs rejtve maradt szöveg, és a nyelvváltó
 oda-vissza a megfelelő lapra visz.
 
-## 14 · Ha élesbe menne
+## 14 · Megosztási kártya (`og.jpg`, `og-en.jpg`)
+
+Amit a Facebook, a LinkedIn és az X mutat, ha valaki a koncepció linkjét
+megosztja. **Egy képben az egész nap:** balra hűvös hajnali papír, jobbra
+mézszínű aranyóra, a jobb felső sarokban a nap, és a virág enyhén felé
+fordul (ezért ellipszis a korong). Alul monospace stáblista: `appraforgo.hu`
+és a szabály, `137,5°`.
+
+```bash
+node design/koncepcio/og-image.js     # → design/koncepcio/og.jpg + og-en.jpg
+```
+
+- **A kártya maga egy HTML-lap** (`og-kartya.html`, `?lang=en` az angolhoz),
+  amit a script lefényképez. Ugyanazokat a betűket és **ugyanazt a
+  `koncepcio.js`-t** tölti be, mint az oldal — a virág ugyanazzal a
+  determinisztikus véletlennel rajzolódik, tehát bitre ugyanaz.
+- A script **hangosan elhasal**, ha bármelyik betű nem töltődött be, ha nem
+  pontosan 600 mag rajzolódott ki, vagy ha a lap nyelve nem stimmel. Hibás
+  kártyát nem ír ki csendben.
+- **JPEG, 92-es minőség, ~115 KB.** A Chromium PNG-je ennél a képnél 505 KB
+  volt (a nagy, lágy gradiensek és a 600 mag rosszul tömöríthetők), és
+  veszteségmentes újratömörítéssel is 435 KB. A 92-es JPEG pixeleinek 99,9%-a
+  legfeljebb 11/255-tel tér el a PNG-től, és négyszeres nagyításban sincs
+  színes szegély a dőlt okker betűkön. A megosztó felületek amúgy is JPEG-re
+  tömörítik át. (85-ön 85 KB, de 15/255 az eltérés; 95-ön 143 KB, és szemre
+  nem jobb.) Python vagy más függőség nem kell hozzá — a Chromium maga
+  ír JPEG-et.
+- Ellenőrizve: 14 szövegdoboz pixel-kontrasztja a kártyán, 0 bukó; a sötét
+  korong a magyar címtől 140, az angoltól 202 px-re.
+- **Az éles oldal kártyáit nem írja felül.** Az `assets/og.png` és
+  `og-en.png` marad, amíg az éles oldal a régi palettával fut — egy aranyórás
+  kártya mást ígérne, mint amit a link mögött talál a látogató.
+
+## 15 · Ha élesbe menne
 
 Ami ehhez még kellene, és amit ez a koncepció szándékosan nem csinált meg:
 
-- **Új megosztási kártya** (`og.png`) ebben a nyelvben — a `design/og-image.js`
-  átírható rá.
+- **A megosztási kártya kész** (lásd fent). Élesítéskor a két JPEG-et az
+  `assets/`-be kell másolni, és az éles `index.html` / `en/index.html`
+  `og:image`, `og:image:type` (`image/jpeg`) és `twitter:image` sorait
+  átírni. Utána érdemes a Facebook Sharing Debuggerben „Scrape Again"-t
+  nyomni, mert a régi képet napokig gyorsítótárazza.
 - **LCP:** a főcím maszkos felúszása késlelteti a Google által mért
   „legnagyobb tartalmi kirajzolást". Élesben vagy rövidebbre venném, vagy az
   első sort animáció nélkül hagynám.

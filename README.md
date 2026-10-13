@@ -247,6 +247,10 @@ npm install playwright-core
 node design/og-image.js          # → assets/og.png + assets/og-en.png
 ```
 
+(A koncepció kártyáit külön script készíti — `node design/koncepcio/og-image.js`
+→ `design/koncepcio/og.jpg` + `og-en.jpg` —, és az éleseket nem írja felül.
+Részletek a `design/koncepcio/README.md`-ben.)
+
 A szövegeket a script tetején, a `CARDS` tömbben találod. A logót az
 `assets/logo.svg`-ből emeli ki, tehát logóváltáskor magától követi, és elhasal,
 ha a szöveg kilógna a vászonból — az angol tipikusan hosszabb, ezért nem árt.
