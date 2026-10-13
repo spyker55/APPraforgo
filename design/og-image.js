@@ -1,7 +1,7 @@
 /**
  * Újragenerálja a megosztási kártyákat:
- *   assets/og.jpg      a magyar oldalhoz (/) és a magyar koncepcióhoz
- *   assets/og-en.jpg   az angol oldalhoz (/en/) és az angol koncepcióhoz
+ *   assets/og.jpg      a magyar oldalhoz (/)
+ *   assets/og-en.jpg   az angol oldalhoz (/en/)
  *
  * Akkor kell lefuttatni, ha a név, a szlogen, a logó vagy a kártya rajza
  * változik — a Facebook, a LinkedIn és az X ezt a képet mutatja a link mellett.
@@ -9,9 +9,9 @@
  *   npm install playwright-core
  *   node design/og-image.js
  *
- * A kártya maga a design/koncepcio/og-kartya.html (a nyelvet a ?lang=en dönti
- * el): ugyanazokat a betűket és ugyanazt a koncepcio.js-t tölti be, mint a
- * koncepció oldala, így a virág bitre ugyanaz. A logót az assets/logo.svg-ből
+ * A kártya maga a design/og-kartya.html (a nyelvet a ?lang=en dönti el):
+ * ugyanazokat a betűket és ugyanazt az assets/main.js-t tölti be, mint az
+ * oldal, így a virág bitre ugyanaz. A logót az assets/logo.svg-ből
  * veszi, tehát logóváltáskor magától követi.
  *
  * Miért JPEG, és miért 92-es minőség: a Chromium PNG-je ennél a képnél (nagy,
@@ -31,7 +31,7 @@ const { chromium } = require('playwright-core');
 
 const ROOT = path.join(__dirname, '..');
 const CHROME = process.env.PW_CHROMIUM || '/opt/pw-browsers/chromium';
-const CARD = pathToFileURL(path.join(__dirname, 'koncepcio', 'og-kartya.html')).href;
+const CARD = pathToFileURL(path.join(__dirname, 'og-kartya.html')).href;
 
 const WIDTH = 1200;
 const HEIGHT = 630;

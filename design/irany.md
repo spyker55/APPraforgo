@@ -1,21 +1,18 @@
-# „A fény felé" — koncepcióterv
+# „A fény felé" — művészeti irány
 
-Az APPraforgó oldalának filmszerű újragondolása. **Koncepció, nem az éles oldal:**
-önálló lap, saját stílussal és saját betűkkel, `noindex`-szel (a szövege az
-élesével egyezik, és nem szabad versenyre kelnie vele a keresőben). Az éles
-oldalt nem érinti.
+Az APPraforgó oldalának filmszerű iránya. Koncepcióként született
+(`design/koncepcio/`), és **2026-10-13 óta ez az élő oldal** (`/` és `/en/`). Ez a
+dokumentum a *miért*-ről szól — a karbantartás (szövegek, színek, betűk,
+kártya) a gyökér `README.md`-jében van.
 
-Megnyitás: a repó gyökeréből `python3 -m http.server 8000`, aztán
-`http://localhost:8000/design/koncepcio/` (magyar) vagy
-`http://localhost:8000/design/koncepcio/en/` (angol). A fejlécben lévő
-EN / HU gomb a két koncepció között vált, nem az éles oldalra visz. A képek a `../../assets/` mappából jönnek,
-ezért a gyökérből kell kiszolgálni, nem ebből a mappából.
+Fájlok: `index.html`, `en/index.html`, `assets/style.css`, `assets/main.js`,
+`assets/fonts/`, a kártyához `design/og-kartya.html` és `design/og-image.js`.
 
 ---
 
 ## 1 · A gondolat
 
-A *napraforgó* szó szerint azt jelenti: **a nap felé forduló.** A koncepció
+A *napraforgó* szó szerint azt jelenti: **a nap felé forduló.** Az oldal
 ezt veszi szó szerint.
 
 Az egész lap **egyetlen folyamatos snitt egy napon át.** A görgetés az idő:
@@ -104,7 +101,7 @@ mind a **magyar ábécére vágva**: az ő/ű egy fájlban van a többi ékezett
 A fontsource kettévágná (`latin` + `latin-ext`), és minden magyar oldal mindkét
 fájlt letöltené. A vágás előtt a Newsreader egymaga 250 KB volt.
 
-Licenc: `fonts/OFL-*.txt` (SIL Open Font License 1.1 — szabadon beágyazható,
+Licenc: `assets/fonts/OFL-*.txt` (SIL Open Font License 1.1 — szabadon beágyazható,
 csak a nevét nem szabad módosított változatra használni).
 
 ## 5 · Paletta — a fény öt állapota
@@ -209,9 +206,9 @@ túllendülés, nincs pattogás.
 
 | Mozdulat | Mit csinál | Miért |
 |---|---|---|
-| **Címkártya** | a főcím sorai maszk mögül emelkednek ki | a film nyitóképe |
+| **Címkártya** | a főcím második, dőlt sora maszk mögül emelkedik ki (az első áll — az az LCP) | a film nyitóképe |
 | **Előhívás** | életlenből élesbe (blur 10 px → 0), alig emelkedve | mint egy fotó a hívótálban — nem becsúszik, hanem előtűnik |
-| **Növekedés** | a magok középről kifelé nőnek ki, aztán kinyílnak a szirmok | ötletből rendszer |
+| **Növekedés** | a magspirál egy táguló maszk mögül bukkan elő a sötét fejből, aztán a két szirom-gyűrű egy enyhe fordulással kinyílik | ötletből rendszer — és egy igazi napraforgón is előbb van meg a fej, és csak utána nyílnak a sziromlevelek |
 | **Heliotrópia** | a fej a nap és az egér felé fordul, 5%-os lépésekkel | lassan, mint egy növény |
 | **Élességáthelyezés** | a dél-jelenetben a még el nem ért lépés életlen, a nap elérésekor kiélesedik | rack focus |
 | **Fénycsík** | egy átlós fénysáv fut végig a filmkocka üvegén belépéskor és hoverre; ugyanez a gombon | délutáni nap egy kirakaton |
@@ -236,9 +233,9 @@ marad el.
 
 Melegség → bizalom → bizonyíték → egyetlen lépés.
 
-## 12 · Új szöveg a koncepcióban
+## 12 · Új szöveg
 
-Az oldal szövege az élesé, egy kivétellel. A **prológus** új, a narratívához
+Az oldal szövege a korábbi oldalé, egy kivétellel. A **prológus** új, a narratívához
 írva:
 
 > A fiatal napraforgó egész nap követi a fényt.
@@ -249,14 +246,14 @@ Ezen kívül a csapók („Hajnal", „A nap pályája", „Termés", „Kocka 0
 görgetésjelző („Görgessen — felkel a nap") és a lábléc utolsó sora
 („20:46 — a nap lement.").
 
-## 13 · Az angol változat (`en/`)
+## 13 · Az angol változat (`/en/`)
 
 Ugyanaz a lap, ugyanazzal a CSS-sel és JS-sel — nincs második példány, amit
 külön kellene karbantartani. A stílus és a motor nyelvfüggetlen: a
 jelenetneveket (*Dawn, Morning, Noon, Golden hour, Dusk*), amiket a napóra
 kiír, a HTML adja a `data-scene` attribútumban.
 
-A szöveg **az éles angol oldalé**, nem újrafordítás. A koncepció saját sorai
+A szöveg **a korábbi angol oldalé**, nem újrafordítás. Az új sorok
 (prológus, csapók, görgetésjelző, lábléc) angolul íródtak, nem tükörfordításban:
 
 > A young sunflower follows the light all day.
@@ -282,8 +279,7 @@ oda-vissza a megfelelő lapra visz.
 
 ## 14 · Megosztási kártya (`assets/og.jpg`, `assets/og-en.jpg`)
 
-Amit a Facebook, a LinkedIn és az X mutat, ha valaki a linket megosztja —
-**az élő oldalé és a koncepcióé is ez**, egyetlen fájlpárban. **Egy képben az egész nap:** balra hűvös hajnali papír, jobbra
+Amit a Facebook, a LinkedIn és az X mutat, ha valaki a linket megosztja. **Egy képben az egész nap:** balra hűvös hajnali papír, jobbra
 mézszínű aranyóra, a jobb felső sarokban a nap, és a virág enyhén felé
 fordul (ezért ellipszis a korong). Alul monospace stáblista: `appraforgo.hu`
 és a szabály, `137,5°`.
@@ -292,9 +288,9 @@ fordul (ezért ellipszis a korong). Alul monospace stáblista: `appraforgo.hu`
 node design/og-image.js     # → assets/og.jpg + assets/og-en.jpg
 ```
 
-- **A kártya maga egy HTML-lap** (`og-kartya.html`, `?lang=en` az angolhoz),
-  amit a script lefényképez. Ugyanazokat a betűket és **ugyanazt a
-  `koncepcio.js`-t** tölti be, mint az oldal — a virág ugyanazzal a
+- **A kártya maga egy HTML-lap** (`design/og-kartya.html`, `?lang=en` az
+  angolhoz), amit a script lefényképez. Ugyanazokat a betűket és **ugyanazt az
+  `assets/main.js`-t** tölti be, mint az oldal — a virág ugyanazzal a
   determinisztikus véletlennel rajzolódik, tehát bitre ugyanaz.
 - A script **hangosan elhasal**, és nem ír ki semmit, ha bármelyik betű nem
   töltődött be, ha nem pontosan 600 mag rajzolódott ki, ha a lap nyelve nem
@@ -311,46 +307,64 @@ node design/og-image.js     # → assets/og.jpg + assets/og-en.jpg
   ír JPEG-et.
 - Ellenőrizve: 14 szövegdoboz pixel-kontrasztja a kártyán, 0 bukó; a sötét
   korong a magyar címtől 140, az angoltól 202 px-re.
-- **Élesben van.** A régi kártyák (`assets/og.png`, `og-en.png`) és a régi
-  generátoruk törölve, a git-előzményben megvannak. Tudatos döntés, hogy a
-  kártya már az új irányt mutatja, miközben az élő oldal még a régi palettán
-  fut.
+- A régi kártyák (`assets/og.png`, `og-en.png`) és a régi generátoruk
+  törölve, a git-előzményben megvannak.
 
-## 15 · Ha élesbe menne
+## 15 · Élesítés (2026-10-13)
 
-Ami ehhez még kellene, és amit ez a koncepció szándékosan nem csinált meg:
+A koncepció élő oldallá vált. Ami közben változott — mind mérve, mind
+kommentezve a kódban:
 
-- ~~Megosztási kártya~~ — kész és élesben (lásd fent).
-- **LCP:** a főcím maszkos felúszása késlelteti a Google által mért
-  „legnagyobb tartalmi kirajzolást". Élesben vagy rövidebbre venném, vagy az
-  első sort animáció nélkül hagynám.
-- **Betűbetöltés:** `font-display: swap` van, tehát betöltéskor egy pillanatra
-  a tartalék szerifben jelenik meg a cím. Élesben egy méretre igazított
-  tartalék (`size-adjust`) eltüntetné az ugrást.
-- A **Vercel Web Analytics** scriptje (ebből a lapból kimaradt).
-- Az éles README „Nincs külső betűtípus — rendszer-fontstack" pontját át
-  kellene írni: külső kérés továbbra sincs, de saját betű lesz.
+- **CLS 0,49 → 0.** A nap `left`/`top`-pal mozgott, és a böngésző minden
+  képkockáját elrendezés-ugrásnak számolta (betöltéskor 0,49, görgetés közben
+  folyamatosan). Most `translate`-tel mozog. A CSS alapértéke a hajnal lett,
+  vagyis pontosan az, amit a JS az első képkockán beállít — így betöltéskor
+  sem a nap nem ugrik, sem a déli meleg papír nem villan fel.
+- **A menü nem rándul.** A fejléc rácsa `auto 1fr auto` volt, így a napóra
+  szélessége tolta a középső menüt, és minden napszakváltáskor oldalra
+  csúszott (angolul 31 px-t). Most szimmetrikus (`1fr auto 1fr`), a napóra
+  pedig a leghosszabb jelenetnévre („Golden hour", 13,89 em) méretezett.
+- **Első kirajzolás ~1 s → ~0,2–0,4 s.** A 655 egyenként animált mag és
+  szirom egy 450–850 ms-os főszál-feladatot okozott (SVG gyerekelem
+  animációja nem kerülhet külön grafikus rétegre). Most három animáció van
+  (lásd a 10. pontot) — a leghosszabb feladat 125 ms.
+- **LCP = első kirajzolás.** A főcím első sora nem animál; lassú 3G-n az LCP
+  5,3 s-ról 2,7 s-ra jött le.
+- **Betűbetöltés:** maradt a `font-display: swap`. A betervezett
+  méretigazított tartalék (`size-adjust`) elmaradt: gyors hálózaton és lassú
+  4G-n a csere nem okoz ugrást, lassú 3G-n 0,0012-t (a monospace gombfelirat
+  44 px-szel keskenyebb lesz). Ezen egy tartalék nem segítene, mert a
+  lehetséges tartalék-monospace-ek maguk is más szélesek.
+- **A régi horgonyok maradtak** (`#referenciak`, nem `#munkak`), hogy a korábbi
+  mélylinkek ne törjenek el. A JSON-LD, a kanonikus cím, a hreflang és a
+  Vercel Web Analytics átkerült az előző oldalról.
+- **A betűvágás reprodukálható:** `design/betuk-vagasa.py`, a pontos
+  parancsokkal. A három Newsreader-fájl ezzel újra lett vágva (a − ≈ jelek
+  bekerültek); a monospace-fájl az időbélyegen kívül bájtra azonos lett.
+- A koncepció korábbi címe (`/design/koncepcio/`, `/en/`) egy `noindex`-es
+  átirányító lap az élő oldalra.
 
-## Súly (magyar lap; az angol ugyanennyi, ugyanazokkal a fájlokkal)
+## Súly (élesítéskor, magyar lap; az angol ugyanennyi)
 
 | | Nyers | gzip |
 |---|---|---|
-| `index.html` | 15,9 KB | 5,3 KB |
-| `koncepcio.css` | 32,7 KB | 10,0 KB |
-| `koncepcio.js` | 16,3 KB | 6,1 KB |
+| `index.html` | 17,9 KB | 5,7 KB |
+| `assets/style.css` | 35,9 KB | 11,4 KB |
+| `assets/main.js` | 17,6 KB | 6,7 KB |
 | 4 betűfájl (woff2) | 107,8 KB | — (már tömörített) |
 
-Összesen kb. **129 KB** átvitel a képeken felül, amelyek ugyanazok, mint az
-éles oldalon.
+Összesen kb. **132 KB** átvitel a képeken felül.
 
 ## Ellenőrzés
 
-Ami ezen a lapon mérve van, nem becsülve:
+Ami mérve van, nem becsülve (élesítéskor, mindkét nyelven):
 
 - **Kontraszt pixelre**, három képernyőméreten (1440, 1024, 390), minden
-  jelenet a saját napszakának színében: 596 szövegdoboz, 0 bukó.
+  jelenet a saját napszakának színében: 1213 szövegdoboz, 0 bukó.
 - **Korong–szöveg távolság**, hét méreten × három egérhelyzet: minden
   esetben ≥ 30 px.
+- **Betöltés** (gyorsítótár nélkül, három hálózaton): CLS 0, LCP = első
+  kirajzolás — a számok a gyökér `README.md` „Mérve" táblázatában.
 - **Glif-lefedettség:** a lapon ténylegesen használt minden karakter benne van
   a kivágott fontokban (0 hiányzó — az első változatban a képlet φ és Φ jele
   hiányzott, ezért íródott át `√5`-re).

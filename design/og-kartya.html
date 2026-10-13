@@ -3,22 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
-<title>APPraforgó — megosztási kártya (koncepció)</title>
+<title>APPraforgó — megosztási kártya</title>
 <!--
-  Az oldal megosztási kártyája, 1200 × 630 — az élő oldalé és a koncepcióé
-  is. Nem látogatóknak készült: a design/og-image.js nyitja meg, lefényképezi,
+  Az oldal megosztási kártyája, 1200 × 630. Nem látogatóknak készült: a design/og-image.js nyitja meg, lefényképezi,
   és az assets/og.jpg / og-en.jpg fájlba írja. A nyelvet a ?lang=en dönti el.
 
   Egy képben az egész nap: balra hűvös hajnali papír, jobbra mézszínű
   délután, és a nap a jobb felső sarokban — a virág felé néz. A virágot
-  ugyanaz a koncepcio.js rajzolja, mint az oldalon, ugyanazzal a
-  determinisztikus véletlennel: bitre ugyanaz a virág.
+  ugyanaz a main.js rajzolja, mint az oldalon, ugyanazzal a
+  determinisztikus véletlennel: bitre ugyanaz a virág. (Ugyanaz a fájl, mint
+  amit az oldal tölt be: ../assets/main.js.)
 -->
 <style>
-@font-face { font-family: "Newsreader Display"; src: url("fonts/newsreader-display.woff2") format("woff2"); font-weight: 330; }
-@font-face { font-family: "Newsreader Display"; src: url("fonts/newsreader-display-italic.woff2") format("woff2"); font-weight: 330; font-style: italic; }
-@font-face { font-family: "Newsreader Text"; src: url("fonts/newsreader-text.woff2") format("woff2"); font-weight: 400 560; }
-@font-face { font-family: "Fragment Mono"; src: url("fonts/fragment-mono-hu.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Newsreader Display"; src: url("../assets/fonts/newsreader-display.woff2") format("woff2"); font-weight: 330; }
+@font-face { font-family: "Newsreader Display"; src: url("../assets/fonts/newsreader-display-italic.woff2") format("woff2"); font-weight: 330; font-style: italic; }
+@font-face { font-family: "Newsreader Text"; src: url("../assets/fonts/newsreader-text.woff2") format("woff2"); font-weight: 400 560; }
+@font-face { font-family: "Fragment Mono"; src: url("../assets/fonts/fragment-mono-hu.woff2") format("woff2"); font-weight: 400; }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { width: 1200px; height: 630px; overflow: hidden; }
@@ -85,7 +85,7 @@ body {
   <div class="lens"></div>
 
   <div class="copy">
-    <p class="mark"><img src="../../assets/logo.svg" alt=""><span>APPraforgó</span></p>
+    <p class="mark"><img src="../assets/logo.svg" alt=""><span>APPraforgó</span></p>
     <h1 class="title"><span data-t="l1">Ötletből</span><em data-t="l2">alkalmazások</em></h1>
     <p class="desc" data-t="desc">Egyedi webes alkalmazások kis- és középvállalatoknak</p>
     <p class="foot"><span>appraforgo.hu</span><span class="rule" data-t="rule">137,5°</span></p>
@@ -103,6 +103,6 @@ body {
     document.querySelectorAll("[data-t]").forEach(function (el) { el.textContent = T[lang][el.dataset.t]; });
   })();
 </script>
-<script src="koncepcio.js"></script>
+<script src="../assets/main.js"></script>
 </body>
 </html>

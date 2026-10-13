@@ -1,5 +1,5 @@
 /* ==========================================================================
-   APPraforgó — koncepció: a fény motorja
+   APPraforgó — a fény motorja
 
    Egyetlen requestAnimationFrame-ciklus visz mindent:
    - a napszakot (papír- és napfényszín, a nap helye, a napóra),
@@ -73,33 +73,36 @@
       return "M0 0C" + (w * .95) + " " + (-len * .16) + " " + (w * .7) + " " + (-len * .8) + " 0 " + (-len) +
              "C" + (-w * .7) + " " + (-len * .8) + " " + (-w * .95) + " " + (-len * .16) + " 0 0Z";
     }
-    function ring(count, lenK, wK, fill, offset, delay0, step) {
-      var g = el("g", {}, svg);
+    // A növekedést NEM elemenként animáljuk: 655 külön SVG-animáció (mag +
+    // szirom) egy 450–850 ms-os főszál-feladatot okozott közvetlenül a
+    // betöltés után, és ~1 másodpercre kitolta az első kirajzolást. Az SVG
+    // gyerekelemek animációja nem kerülhet külön grafikus rétegre, tehát mind
+    // a főszálon fut. Helyette három animáció van, csoportonként egy (CSS).
+    function ring(count, lenK, wK, fill, offset, cls) {
+      var g = el("g", { class: "petals " + cls }, svg);
       for (var i = 0; i < count; i++) {
         var a = i * 360 / count + offset + (rand() - .5) * 4;
         var len = R * lenK * (.9 + rand() * .2), w = R * wK * (.9 + rand() * .2);
         var holder = el("g", { transform: "rotate(" + a.toFixed(2) + ") translate(0 " + (-R * .9).toFixed(1) + ")" }, g);
-        var p = el("path", { d: petal(len, w), fill: "url(#" + fill + ")", class: "petal" }, holder);
-        p.style.setProperty("--d", Math.round(delay0 + i * step));
+        el("path", { d: petal(len, w), fill: "url(#" + fill + ")", class: "petal" }, holder);
         el("path", { d: "M0 " + (-len * .1) + "L0 " + (-len * .86), stroke: "rgba(110,62,0,.22)", "stroke-width": 1.4, fill: "none" }, holder);
       }
     }
-    ring(21, .8, .22, "pb", 360 / 42, 1150, 24);
-    ring(34, .86, .18, "pf", 0, 1350, 17);
+    ring(21, .8, .22, "pb", 360 / 42, "petals--back");
+    ring(34, .86, .18, "pf", 0, "petals--front");
 
     el("circle", { r: R * 1.03, fill: "#24170C", class: "disc" }, svg);
-    var seeds = el("g", {}, svg);
+    var seeds = el("g", { class: "seeds" }, svg);
     for (var n = 1; n <= N; n++) {
       var r = c * Math.sqrt(n), a = n * GOLDEN, t = r / R, col, k = 1;
       if (t < .14)      col = mixHex("#7C7B35", "#5A5223", t / .14);          // éretlen közép: olajzöld
       else if (t < .5)  col = mixHex("#4F3B1F", "#3A2817", (t - .14) / .36);
       else if (t < .6)  { col = rand() < .5 ? "#D49C22" : "#B9821B"; k = .82; } // nyíló virágkák gyűrűje
       else              col = mixHex("#3A2817", "#22160B", (t - .6) / .4);
-      var s = el("circle", {
+      el("circle", {
         cx: (r * Math.cos(a)).toFixed(2), cy: (r * Math.sin(a)).toFixed(2),
         r: (c * (.56 + .3 * t) * k).toFixed(2), fill: col, class: "seed"
       }, seeds);
-      s.style.setProperty("--d", Math.round(120 + t * 1100));
     }
     el("circle", { r: R * 1.04, fill: "url(#disc-light)" }, svg);
     el("circle", { r: R * 1.04, fill: "none", stroke: "rgba(255,214,140,.28)", "stroke-width": 2 }, svg);
