@@ -35,6 +35,7 @@ google*.html           a Google Search Console tulajdonjog-igazoló fájlja
 design/irany.md        a művészeti irány
 design/og-kartya.html  a megosztási kártya rajza (ezt fényképezi az og-image.js)
 design/og-image.js     a kártyák generátora
+design/linkedin-borito.*  LinkedIn-profil borítókép (angol): a rajz, a generátor és a kész JPEG
 design/betuk-vagasa.py a betűfájlok újravágása, ha új karakter kerül a szövegbe
 design/logo-*          logóváltozatok és összehasonlító lapjaik
 design/koncepcio/      átirányítás: a koncepció korábbi címe (lásd lent)
@@ -343,6 +344,18 @@ alpixeles betűélek színes szegélyként maradnának meg a képben. (A CSS-ben
 való `-webkit-font-smoothing` macOS-only, Linuxon nem hat — ezért a kapcsoló.)
 Az `--allow-file-access-from-files` azért kell, mert a kártyát `file://`-ról
 nyitja meg, és onnan a Chromium CORS miatt különben nem töltené be a betűket.
+
+**LinkedIn-borító** — `design/linkedin-borito-en.jpg` (1584 × 396 kétszeres
+felbontásban, 3168 × 792). Ugyanaz a nap, csíkra nyújtva. Nincs az oldalon,
+kézzel kell feltölteni a LinkedInen (profil → ceruza a borítón).
+
+```bash
+node design/linkedin-borito.js   # → design/linkedin-borito-en.jpg
+```
+
+Ugyanúgy hangosan elhasal, mint az og-image.js, plusz két dolgot figyel: egyetlen
+szöveg sem kezdődhet 470 px-től balra, mert a bal alsó sarkot a kerek profilkép
+takarja (mobilon nagyobb, mint asztali gépen), és semmi sem törhet két sorba.
 
 ⚠️ `og:image` **nélkül** a Facebook a lapon talált legnagyobb képet választja —
 esetünkben az egyik referencia-screenshotot. Ezért kell explicit megadni.

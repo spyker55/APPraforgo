@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<title>APPraforgó — LinkedIn-borító</title>
+<!--
+  LinkedIn-profil borítókép, 1584 × 396, angolul. Nem látogatóknak készült: a design/linkedin-borito.js nyitja meg,
+  kétszeres felbontásban lefényképezi, és a design/linkedin-borito-en.jpg fájlba írja.
+
+  Ugyanaz a nap, mint a megosztási kártyán, csak csíkra nyújtva: balra hűvös
+  hajnali papír (ide kerül a LinkedIn kerek profilképe), középen felível a
+  nap útja, jobbra mézszínű délután és a virág, a nap felé fordulva. A
+  virágot az oldal saját ../assets/main.js-e rajzolja: bitre ugyanaz a virág.
+
+  A bal alsó sarkot a LinkedIn a profilképpel takarja (asztali gépen ebben a
+  léptékben kb. x < 360, y > 190, mobilon x < 460), ezért minden szöveg a
+  SAFE_LEFT-től jobbra van — ezt a generátor ellenőrzi.
+-->
+<style>
+@font-face { font-family: "Newsreader Display"; src: url("../assets/fonts/newsreader-display.woff2") format("woff2"); font-weight: 330; }
+@font-face { font-family: "Newsreader Display"; src: url("../assets/fonts/newsreader-display-italic.woff2") format("woff2"); font-weight: 330; font-style: italic; }
+@font-face { font-family: "Newsreader Text"; src: url("../assets/fonts/newsreader-text.woff2") format("woff2"); font-weight: 400 560; }
+@font-face { font-family: "Fragment Mono"; src: url("../assets/fonts/fragment-mono-hu.woff2") format("woff2"); font-weight: 400; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 1584px; height: 396px; overflow: hidden; }
+
+body {
+  position: relative;
+  color: #1C1915;
+  background:
+    /* a nap: jobbra fent, a virág mögött */
+    radial-gradient(560px 420px at 84% 0%, rgba(255, 219, 148, .66) 0%, rgba(255, 219, 148, .22) 45%, transparent 75%),
+    /* az egész nap egy csíkban: hajnali gyöngyház balra, aranyóra jobbra */
+    linear-gradient(96deg, #E9ECEC 0%, #EFEFE8 22%, #F5F1E4 50%, #F4E3C4 100%);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* A nap útja: balra a hajnali horizontról indul, a virág mögött tetőzik. */
+.arc { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.arc path { fill: none; stroke: #744600; stroke-opacity: .22; stroke-width: 1.2; stroke-dasharray: 2 7; stroke-linecap: round; }
+.arc .horizon { stroke: #1C1915; stroke-opacity: .12; stroke-dasharray: none; }
+
+/* A virág: jobbra, fent és lent levágva, enyhén a nap felé fordítva. */
+.stage {
+  position: absolute; width: 640px; height: 640px; left: 1066px; top: -112px;
+  perspective: 1600px;
+}
+.stage .shadow {
+  position: absolute; inset: 10% 6% 2% 14%;
+  background: radial-gradient(closest-side, rgba(43, 58, 85, .22), rgba(43, 58, 85, .08) 55%, transparent 80%);
+  translate: -6% 8%; filter: blur(16px);
+}
+.flower { width: 100%; height: 100%; overflow: visible; transform: rotateY(12deg) rotateX(4deg); }
+
+/* Hideg vignetta a sarkokban — meleg fény, hideg árnyék. */
+.lens {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(110% 160% at 50% 45%, transparent 60%, rgba(43, 58, 85, .10) 100%);
+  mix-blend-mode: multiply;
+}
+
+.copy { position: absolute; left: 500px; top: 50px; bottom: 46px; width: 600px; display: flex; flex-direction: column; }
+
+.top { display: flex; justify-content: space-between; align-items: center; width: 560px; }
+.mark { display: flex; align-items: center; gap: 12px; font: 560 23px/1 "Newsreader Text", Georgia, serif; letter-spacing: -.01em; }
+.mark img { width: 34px; height: 34px; }
+
+.title {
+  margin-top: 26px;
+  font: 330 92px/.88 "Newsreader Display", Georgia, serif;
+  letter-spacing: -.045em;
+}
+.title span { display: block; }
+.title em { display: block; padding-left: .55em; font-style: italic; color: #744600; letter-spacing: -.04em; }
+
+.foot {
+  margin-top: auto; padding-top: 14px; width: 560px;
+  border-top: 1px solid rgba(28, 25, 21, .18);
+  font: 400 19px/1.2 "Newsreader Text", Georgia, serif; color: #585046;
+}
+.url { color: #744600; font: 400 15px/1 "Fragment Mono", ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+</style>
+</head>
+<body>
+  <svg class="arc" viewBox="0 0 1584 396" aria-hidden="true">
+    <path class="horizon" d="M0 352H420"/>
+    <path d="M70 352C360 20 900 -60 1340 40"/>
+  </svg>
+  <div class="stage" aria-hidden="true">
+    <div class="shadow"></div>
+    <svg class="flower" viewBox="-560 -560 1120 1120"></svg>
+  </div>
+  <div class="lens"></div>
+
+  <div class="copy">
+    <div class="top"><p class="mark"><img src="../assets/logo.svg" alt=""><span>APPraforgó</span></p><p class="url">appraforgo.hu</p></div>
+    <h1 class="title"><span>Ideas into</span><em>applications</em></h1>
+    <p class="foot">Custom web applications for small and medium-sized businesses</p>
+  </div>
+
+<script src="../assets/main.js"></script>
+</body>
+</html>
