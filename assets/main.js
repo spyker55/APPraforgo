@@ -187,10 +187,13 @@
   var arcSun = document.querySelector(".arc-sun");
   var stationsG = document.querySelector(".arc-stations");
   var steps = [].slice.call(document.querySelectorAll(".step"));
-  var arcLen = 0, stations = [];
+  var arcBox = document.querySelector(".arc"), pin = document.querySelector(".pin");
+  var arcLen = 0, stations = [], arcPinned = false;
 
   function layoutArc() {
     if (!arcPath) return;
+    // Megáll-e a jelenet: ezt a CSS dönti el (szélesség, magasság, mozgás), innen csak leolvassuk.
+    arcPinned = getComputedStyle(pin).position === "sticky";
     arcLen = arcPath.getTotalLength();
     arcPath.style.strokeDasharray = arcLen;
     if (!stations.length) {
@@ -210,9 +213,16 @@
     if (!arcPath || !arcLen) return;
     var a = 1;
     if (!narrow.matches && !reduce.matches) {
-      var r = arcScene.getBoundingClientRect();
-      var q = clamp(-r.top / Math.max(1, r.height - window.innerHeight), 0, 1);
-      a = clamp((q - .04) / .86, 0, 1);
+      if (arcPinned) {
+        var r = arcScene.getBoundingClientRect();
+        var q = clamp(-r.top / Math.max(1, r.height - window.innerHeight), 0, 1);
+        a = clamp((q - .04) / .86, 0, 1);
+      } else {
+        // Alacsony képernyő, a jelenet nem áll meg: a nap akkor halad, amikor az
+        // ív a képernyő aljáról (90%) felér a harmadáig (35%).
+        var top = arcBox.getBoundingClientRect().top, vh = window.innerHeight;
+        a = clamp((vh * .9 - top) / (vh * .55), 0, 1);
+      }
     }
     arcPath.style.strokeDashoffset = (arcLen * (1 - a)).toFixed(1);
     var pt = arcPath.getPointAtLength(arcLen * a);
@@ -346,7 +356,7 @@
   function onResize() { sizeCanvas(); measure(); dirty = true; }
   window.addEventListener("resize", onResize, { passive: true });
   window.addEventListener("load", onResize);
-  reduce.addEventListener("change", function () { if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height); dirty = true; });
+  reduce.addEventListener("change", function () { if (ctx) ctx.clearRect(0, 0, canvas.width, canvas.height); measure(); dirty = true; });
   narrow.addEventListener("change", function () { dirty = true; });
   onResize();
   requestAnimationFrame(frame);

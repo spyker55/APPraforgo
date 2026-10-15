@@ -459,14 +459,15 @@ main, .foot, .hud { position: relative; z-index: 1; }
 .scene--del { padding: clamp(5rem, 12vh, 8rem) 0; }
 .js .scene--del { height: 260svh; padding: 0; }
 .js .pin { position: sticky; top: 0; height: 100svh; display: grid; align-items: center; overflow: clip; }
-.pin-inner { width: 100%; padding-top: 5rem; }
+.pin-inner { width: 100%; padding-top: 4rem; }
 .arc-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .5rem 2rem; }
 .arc-head .slate { flex-basis: 100%; }
 .arc-head .sub { margin-top: 0; }
 
-/* Az ív szélessége a képernyő MAGASSÁGÁBÓL jön: a fejléc, az ív és a lépések
-   együtt férjenek bele a megállított képbe. 3,158 = 1200 / 380, a rajz aránya. */
-.arc { position: relative; width: min(100%, calc((100svh - 30rem) * 3.158)); margin: clamp(1.5rem, 4vh, 3rem) auto 0; }
+/* A lépések szélessége és a címük betűmérete az ív szélességéből jön (cqi),
+   nem a képernyőéből: az állomások egymástól az ív 24,3–25,9%-ára vannak,
+   ennél egyetlen lépés sem lehet szélesebb. */
+.arc { position: relative; width: 100%; margin: clamp(1.5rem, 4vh, 3rem) auto 0; container-type: inline-size; }
 .arc-svg { width: 100%; height: auto; overflow: visible; }
 .arc-track   { fill: none; stroke: var(--hair); stroke-width: 1.2; stroke-dasharray: 3 7; }
 .arc-lit     { fill: none; stroke: var(--gold-deep); stroke-width: 2; stroke-linecap: round; }
@@ -487,6 +488,7 @@ html:not(.js) .arc-sun { display: none; }
 .js .step {
   position: absolute; left: calc(var(--x) * 1%); top: 0;
   width: clamp(10rem, 15vw, 14rem);
+  width: min(14rem, calc(24cqi - 1.25rem));
   translate: -50% 1.6rem;
   opacity: .32; filter: blur(1.5px);
   transition: opacity 1s var(--ease-light), filter 1s var(--ease-light), translate 1s var(--ease-light);
@@ -496,6 +498,22 @@ html:not(.js) .arc-sun { display: none; }
 .station.is-lit .station-drop { stroke: var(--gold-deep); opacity: 1; }
 .step-n { font: 400 .72rem/1 var(--f-mono); letter-spacing: .14em; color: var(--ochre); }
 .step h3 { margin: .55rem 0 .35rem; font: 330 clamp(1.5rem, 1rem + 1.4vw, 2.2rem)/1.05 var(--f-display); letter-spacing: -.02em; }
+/* A leghosszabb szó a „Development": 5,71 em. Ennél kisebb betű kell, hogy
+   egyetlen szó se lógjon át a szomszéd lépésbe; több szó nyugodtan törhet. */
+.step h3 { font-size: min(clamp(1.5rem, 1rem + 1.4vw, 2.2rem), calc((24cqi - 1.25rem) / 5.9)); }
+
+/* A megállított jelenet: a fejléc, az ív és a lépések együtt férjenek bele
+   egy képernyőbe, ezért az ív szélessége a képernyő MAGASSÁGÁBÓL jön.
+   3,158 = 1200 / 380, a rajz aránya. Alacsony képernyőn (45 rem alatt) így
+   az ív olyan keskeny lenne, hogy a lépések nem férnének alá: ott a jelenet
+   nem áll meg, az ív teljes szélességű, és a nap a sima görgetéssel halad. */
+@media (min-width: 861px) and (height >= 45rem) and (prefers-reduced-motion: no-preference) {
+  .js .arc { width: min(100%, calc((100svh - 30rem) * 3.158)); }
+}
+@media (min-width: 861px) and (height < 45rem) {
+  .js .scene--del { height: auto; padding: clamp(5rem, 12vh, 8rem) 0; }
+  .js .pin { position: static; height: auto; display: block; overflow: visible; }
+}
 .step p { font-size: .98rem; line-height: 1.45; color: var(--ink-soft); }
 
 /* --- 04 · Aranyóra ------------------------------------------------------- */
@@ -673,6 +691,7 @@ html:not(.js) .arc-sun { display: none; }
   .arc { width: 100%; }
   .steps, .js .steps { position: static; height: auto; display: grid; grid-template-columns: 1fr; gap: 2rem; margin-top: 2.5rem; padding-left: 1.4rem; border-left: 1px solid var(--gold-deep); }
   .step, .js .step, .js .step.is-lit { position: static; width: auto; translate: none; opacity: 1; filter: none; }
+  .step h3 { font-size: clamp(1.5rem, 1rem + 1.4vw, 2.2rem); }
 
   .still-link { grid-template-columns: 1fr; }
   .still .still-frame, .still .still-text { grid-column: 1; grid-row: auto; }

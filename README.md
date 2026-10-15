@@ -188,8 +188,10 @@ Az `assets/main.js` egyetlen `requestAnimationFrame`-ciklusban viszi:
 - **a virágot** — 600 mag a Vogel-képlettel (`r = c·√n`, `n · 137,508°`), 21 + 34
   szirom determinisztikus szórással: minden betöltéskor ugyanaz a virág;
 - **a fej fordulását** — a nap és az egér felé, lassan (heliotrópia);
-- **a dél-jelenet ívét** — széles képernyőn a jelenet megáll (sticky), és a nap
-  végigmegy az íven; amelyik állomáson áthaladt, az kigyullad;
+- **a dél-jelenet ívét** — széles és legalább 720 px magas képernyőn a jelenet
+  megáll (sticky), és a nap végigmegy az íven; amelyik állomáson áthaladt, az
+  kigyullad. Alacsonyabb képernyőn nem áll meg, az ív teljes szélességű, és a
+  nap a sima görgetéssel halad;
 - **a filmkockák parallaxát** és **a lemenő napot** a lap alján;
 - **a felúszást** — ami képre ér, életlenből élesbe „hívódik elő",
   elemenként egyszer (`.reveal`, `IntersectionObserver`).
@@ -218,6 +220,15 @@ Csapdák, amibe az élesítéskor belefutottunk — mind kommentezve a kódban:
   rándult (angolul 31 px-t).
 - ⚠️ **A főcím első sora nem animál.** Az első képen ez a lap legnagyobb szövege,
   a Google ezt méri LCP-ként; a címkártya-hatást a második, dőlt sor viszi.
+- ⚠️ **A dél-jelenet lépései az ív szélességéhez igazodnak, nem a
+  képernyőéhez** (`cqi`). A megállított ív szélessége a képernyő *magasságából*
+  jön, így széles, de alacsony ablakban (pl. 1700 × 750, egy átlagos laptop
+  böngészővel) keskeny; a régi, `vw`-alapú lépésszélesség ott 20–70 px-szel
+  egymásra tolta a lépéseket. Most egy lépés az ív 24%-ánál nem szélesebb, a
+  címe pedig legfeljebb akkora, hogy a leghosszabb szó („Development", 5,71 em)
+  beleférjen. 720 px alatt a jelenet nem áll meg (a 3,158-as arányú ív ott már
+  túl keskeny lenne). Ellenőrizve 900–2560 × 720–1000 között 240 méretben,
+  mindkét nyelven: legalább 24 px a lépések között, legalább 10 px alul.
 - A filmkockáknál a felúszás a `transform`-ot, a parallax a `translate`-et, a
   hover a `scale`-t írja — három független tulajdonság, mert ha mind a
   `transform`-on osztozna, a felúszás `transform: none`-ja elnyelné a másik kettőt.
